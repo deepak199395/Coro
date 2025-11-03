@@ -1,0 +1,63 @@
+
+| **Category**         | **Command**                                          | **Description**                                 |
+| -------------------- | ---------------------------------------------------- | ----------------------------------------------- |
+| Initialization       | `git init`                                           | Initialize a new Git repository                 |
+| Clone                | `git clone <repo-url>`                               | Clone (download) a repository                   |
+| Status               | `git status`                                         | Show modified files and current branch          |
+| Add                  | `git add <file>`                                     | Stage a specific file                           |
+| Add All              | `git add .`                                          | Stage all changes                               |
+| Commit               | `git commit -m "message"`                            | Commit staged changes with a message            |
+| Quick Commit         | `git commit -am "message"`                           | Add + commit tracked files together             |
+| Log                  | `git log`                                            | Show commit history                             |
+| Log (compact)        | `git log --oneline`                                  | Show compact commit history                     |
+| Log (graph)          | `git log --graph --oneline --all`                    | Display branches in a graph view                |
+| Diff                 | `git diff`                                           | Show unstaged file differences                  |
+| Diff (staged)        | `git diff --staged`                                  | Show differences between staged and last commit |
+| Show Commit          | `git show <commit-id>`                               | View details of a specific commit               |
+| Branch List          | `git branch`                                         | List all branches                               |
+| Create Branch        | `git branch <branch-name>`                           | Create a new branch                             |
+| Switch Branch        | `git checkout <branch-name>`                         | Switch to another branch                        |
+| Switch Branch (new)  | `git switch <branch-name>`                           | Alternate branch switch command                 |
+| New Branch + Switch  | `git checkout -b <branch-name>`                      | Create and switch to a new branch               |
+| Merge                | `git merge <branch-name>`                            | Merge given branch into current                 |
+| Delete Branch        | `git branch -d <branch-name>`                        | Delete branch (if merged)                       |
+| Force Delete Branch  | `git branch -D <branch-name>`                        | Force delete branch                             |
+| Stash Changes        | `git stash`                                          | Temporarily save uncommitted changes            |
+| Apply Stash          | `git stash pop`                                      | Apply last stashed changes                      |
+| Remote List          | `git remote`                                         | List remotes                                    |
+| Remote URLs          | `git remote -v`                                      | Show remote URLs                                |
+| Add Remote           | `git remote add origin <url>`                        | Connect local repo to remote                    |
+| Remove Remote        | `git remote remove <name>`                           | Remove a remote                                 |
+| Fetch                | `git fetch`                                          | Download updates from remote                    |
+| Pull                 | `git pull`                                           | Fetch + merge changes from remote               |
+| Push                 | `git push`                                           | Upload commits to remote                        |
+| Push with Tracking   | `git push -u origin <branch>`                        | Push branch and set upstream tracking           |
+| Delete Remote Branch | `git push origin --delete <branch>`                  | Delete branch from remote                       |
+| Restore File         | `git restore <file>`                                 | Undo changes in working directory               |
+| Unstage File         | `git restore --staged <file>`                        | Remove file from staging area                   |
+| Reset File           | `git reset <file>`                                   | Unstage file (legacy command)                   |
+| Hard Reset           | `git reset --hard`                                   | Discard all local changes permanently           |
+| Revert Commit        | `git revert <commit-id>`                             | Create a commit that undoes another commit      |
+| Clean Untracked      | `git clean -fd`                                      | Delete untracked files/folders                  |
+| Blame                | `git blame <file>`                                   | Show who changed which lines                    |
+| Tag List             | `git tag`                                            | Show all tags                                   |
+| Create Tag           | `git tag <tagname>`                                  | Create lightweight tag                          |
+| Annotated Tag        | `git tag -a <tagname> -m "msg"`                      | Create annotated tag                            |
+| Push Tag             | `git push origin <tagname>`                          | Push tag to remote                              |
+| Push All Tags        | `git push origin --tags`                             | Push all tags                                   |
+| Delete Tag           | `git tag -d <tagname>`                               | Delete local tag                                |
+| Delete Remote Tag    | `git push origin :refs/tags/<tagname>`               | Delete remote tag                               |
+| Config Username      | `git config --global user.name "Name"`               | Set your global username                        |
+| Config Email         | `git config --global user.email "email@example.com"` | Set your global email                           |
+| Show Config          | `git config --list`                                  | View current Git configuration                  |
+| Set Editor           | `git config --global core.editor "code --wait"`      | Set VS Code as default editor                   |
+| Help                 | `git help <command>`                                 | Show Git help for a command                     |
+| Rebase               | `git rebase <branch>`                                | Move/Replay commits onto another branch         |
+| Cherry-pick          | `git cherry-pick <commit-id>`                        | Apply specific commit to current branch         |
+| Reflog               | `git reflog`                                         | Show branch change history                      |
+| Shortlog             | `git shortlog`                                       | Summarize commits by author                     |
+| Archive              | `git archive --format=zip HEAD > file.zip`           | Export repo as a ZIP file                       |
+| Bisect Start         | `git bisect start`                                   | Begin binary search for bug commit              |
+| Bisect Good          | `git bisect good`                                    | Mark a commit as good                           |
+| Bisect Bad           | `git bisect bad`                                     | Mark a commit as bad                            |
+| End Bisect           | `git bisect reset`                                   | End bisect session                              |

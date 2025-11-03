@@ -1,0 +1,21 @@
+| **Purpose**                                        | **Command**                                                                  | **Description**                                        |
+| -------------------------------------------------- | ---------------------------------------------------------------------------- | ------------------------------------------------------ |
+| 🔍 **Check current config**                        | `git config --list`                                                          | View all Git settings (including user info)            |
+| 👤 **Check username**                              | `git config user.name`                                                       | Show configured username for current repo              |
+| 📧 **Check email**                                 | `git config user.email`                                                      | Show configured email for current repo                 |
+| 🧹 **Unset username**                              | `git config --global --unset user.name`                                      | Remove globally saved username                         |
+| 🧹 **Unset email**                                 | `git config --global --unset user.email`                                     | Remove globally saved email                            |
+| 🔒 **Unset credential helper**                     | `git config --global --unset credential.helper`                              | Remove stored credential helper (stops auto login)     |
+| 💥 **Clear all saved credentials (manual logout)** | `git credential-cache exit`                                                  | Stop the credential cache daemon                       |
+| 💣 **Erase stored GitHub token**                   | `git credential reject` then enter:<br>`protocol=https`<br>`host=github.com` | Clears the cached login/token                          |
+| 🧰 **Set username again**                          | `git config --global user.name "Your Name"`                                  | Add username again after logout                        |
+| 🧰 **Set email again**                             | `git config --global user.email "you@example.com"`                           | Add email again after logout                           |
+| 🔐 **Set credential helper (optional)**            | `git config --global credential.helper store`                                | Store credentials in plain text (not recommended)      |
+| 🔐 **Set credential helper (secure)**              | `git config --global credential.helper cache`                                | Temporarily cache credentials in memory                |
+| 🪣 **Clear global Git settings**                   | `git config --global --edit`                                                 | Opens config file — you can manually delete login info |
+
+⚡ Quick Full Logout Command Sequence
+git config --global --unset user.name
+git config --global --unset user.email
+git config --global --unset credential.helper
+git credential-cache exit

@@ -1,0 +1,11 @@
+/* Home.css */
+
+.home-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* full viewport height */
+}
+
+.home-content {
+  flex: 1; /* takes all available middle space */
+}
