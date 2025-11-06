@@ -1,0 +1,172 @@
+/* ====== Container ====== */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: #847f7f; /* Deep black background */
+  color: #fff;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* ====== Form ====== */
+.login-form {
+  background: #1a1a1a; /* Slightly lighter than black for contrast */
+  padding: 40px 30px;
+  border-radius: 18px;
+  box-shadow: 0 0 25px rgba(255, 255, 255, 0.08);
+  width: 420px;
+  max-width: 100%;
+  text-align: center;
+  border: 1px solid #2d2d2d;
+  transition: all 0.3s ease;
+}
+
+.login-form:hover {
+  box-shadow: 0 0 35px rgba(255, 255, 255, 0.15);
+}
+
+.login-form h2 {
+  margin-bottom: 10px;
+  color: #fff;
+  font-weight: 600;
+}
+
+.login-form p {
+  margin-bottom: 25px;
+  color: #bfbfbf;
+}
+
+/* ====== Input Fields ====== */
+.input-group {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.input-icon {
+  position: absolute;
+  top: 12px;
+  left: 10px;
+  color: #aaa;
+}
+
+.input-group input {
+  width: 90%;
+  padding: 10px 10px 10px 35px;
+  border: 1px solid #555;
+  background: #0f0f0f; /* darker than form */
+  color: #fff;
+  border-radius: 8px;
+  outline: none;
+  font-size: 15px;
+  transition: border 0.3s ease, background 0.3s ease;
+}
+
+.input-group input:focus {
+  border-color: #fff;
+  background: #1c1c1c;
+}
+
+/* ====== Button ====== */
+.login-btn {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #fff;
+  background: #000;
+  color: #fff;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.3s ease;
+}
+
+.login-btn:hover {
+  background: #fff;
+  color: #000;
+  transform: translateY(-2px);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+/* ====== Signup Text ====== */
+.signup-text {
+  margin-top: 15px;
+  font-size: 14px;
+  color: #aaa;
+}
+
+.signup-text a {
+  color: #fff;
+  text-decoration: underline;
+  transition: color 0.3s ease;
+}
+
+.signup-text a:hover {
+  color: #ccc;
+}
+
+/* ====== RESPONSIVE DESIGN ====== */
+
+/* Tablets */
+@media (max-width: 1024px) {
+  .login-form {
+    width: 380px;
+    padding: 35px 25px;
+  }
+
+  .input-group input {
+    width: 92%;
+    font-size: 14px;
+  }
+}
+
+/* Mobile Devices */
+@media (max-width: 768px) {
+  .login-container {
+    padding: 15px;
+  }
+
+  .login-form {
+    width: 100%;
+    max-width: 340px;
+    padding: 30px 20px;
+    border-radius: 14px;
+  }
+
+  .login-form h2 {
+    font-size: 22px;
+  }
+
+  .login-form p {
+    font-size: 13px;
+  }
+
+  .input-group input {
+    width: 88%;
+    font-size: 14px;
+  }
+
+  .login-btn {
+    font-size: 15px;
+    padding: 9px;
+  }
+
+  .signup-text {
+    font-size: 13px;
+  }
+}
+
+/* Very Small Phones */
+@media (max-width: 400px) {
+  .login-form {
+    padding: 25px 15px;
+  }
+
+  .login-form h2 {
+    font-size: 20px;
+  }
+
+  .input-group input {
+    width: 85%;
+  }
+}
