@@ -1,212 +1,123 @@
-/* ====== Container ====== */
 .register-container {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background: #7b7575; 
-  color: #fff;
+  background: linear-gradient(135deg, #4b6cb7, #182848);
   padding: 20px;
-  box-sizing: border-box;
 }
 
-/* ====== Form ====== */
 .register-form {
-  background: #1a1a1a; 
-  padding: 40px 30px;
-  border-radius: 18px;
-  box-shadow: 0 0 25px rgba(255, 255, 255, 0.08);
-  width: 450px;
-  max-width: 100%;
+  background: #ffffff;
+  width: 100%;
+  max-width: 420px;
+  border-radius: 15px;
+  padding: 30px 35px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
   text-align: center;
-  border: 1px solid #2d2d2d;
-  transition: all 0.3s ease;
 }
 
-.register-form:hover {
-  box-shadow: 0 0 35px rgba(255, 255, 255, 0.15);
-}
-
-/* ====== Headings ====== */
 .register-form h2 {
+  color: #222;
   margin-bottom: 10px;
-  color: #fff;
-  font-weight: 600;
   font-size: 26px;
 }
 
-.register-form p {
+.form-subtitle {
+  color: #666;
   margin-bottom: 25px;
-  color: #bfbfbf;
   font-size: 14px;
 }
 
-/* ====== Input Fields ====== */
 .input-group {
   position: relative;
-  margin-bottom: 20px;
+  margin-bottom: 18px;
 }
 
 .input-icon {
   position: absolute;
-  top: 12px;
-  left: 10px;
-  color: #aaa;
-  font-size: 16px;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #666;
 }
 
 .input-group input {
-  width: 90%;
-  padding: 10px 10px 10px 35px;
-  border: 1px solid #555;
-  background: #0f0f0f;
-  color: #fff;
+  width: 85%;
+  padding: 12px 12px 12px 38px;
+  border: 1px solid #ccc;
   border-radius: 8px;
-  outline: none;
   font-size: 15px;
-  transition: border 0.3s ease, background 0.3s ease;
+  outline: none;
+  transition: all 0.3s ease;
 }
 
 .input-group input:focus {
-  border-color: #fff;
-  background: #1c1c1c;
+  border-color: #4b6cb7;
+  box-shadow: 0 0 5px rgba(75, 108, 183, 0.4);
 }
 
-/* ====== Button ====== */
-.register-btn {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #fff;
-  background: #000;
-  color: #fff;
+.file-input input[type="file"] {
+  display: none;
+}
+
+.file-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  background-color: #f5f5f5;
+  border: 2px dashed #aaa;
   border-radius: 8px;
+  color: #333;
   cursor: pointer;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.file-label:hover {
+  background-color: #e6e6e6;
+}
+
+.register-btn {
+  background: linear-gradient(135deg, #4b6cb7, #182848);
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 10px;
+  width: 100%;
   font-size: 16px;
+  cursor: pointer;
+  margin-top: 10px;
   transition: all 0.3s ease;
 }
 
 .register-btn:hover {
-  background: #fff;
-  color: #000;
-  transform: translateY(-2px);
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+  background: linear-gradient(135deg, #5a7ad3, #1b2f65);
 }
 
-/* ====== Login Link ====== */
 .login-link {
-  margin-top: 15px;
+  margin-top: 20px;
   font-size: 14px;
-  color: #aaa;
+  color: #444;
 }
 
 .login-link a {
-  color: #fff;
-  text-decoration: underline;
-  transition: color 0.3s ease;
+  color: #4b6cb7;
+  text-decoration: none;
+  font-weight: bold;
 }
 
 .login-link a:hover {
-  color: #ccc;
+  text-decoration: underline;
 }
 
-/* ====== RESPONSIVE DESIGN ====== */
-
-/* Tablets (Landscape + Portrait) */
-@media (max-width: 1024px) {
-  .register-form {
-    width: 380px;
-    padding: 35px 25px;
-  }
-
-  .register-form h2 {
-    font-size: 24px;
-  }
-
-  .input-group input {
-    width: 92%;
-    font-size: 14px;
-  }
-}
-
-/* Mobile Devices (Portrait) */
-@media (max-width: 768px) {
-  .register-container {
-    padding: 15px;
-  }
-
-  .register-form {
-    width: 100%;
-    max-width: 360px;
-    padding: 28px 20px;
-    border-radius: 14px;
-  }
-
-  .register-form h2 {
-    font-size: 22px;
-  }
-
-  .register-form p {
-    font-size: 13px;
-  }
-
-  .input-group input {
-    width: 88%;
-    font-size: 14px;
-  }
-
-  .register-btn {
-    font-size: 15px;
-    padding: 9px;
-  }
-
-  .login-link {
-    font-size: 13px;
-  }
-}
-
-/* Small Phones (≤480px) */
+/* Responsive Design */
 @media (max-width: 480px) {
   .register-form {
-    width: 100%;
-    max-width: 320px;
-    padding: 25px 15px;
-    border-radius: 12px;
+    padding: 25px 20px;
   }
-
   .register-form h2 {
-    font-size: 20px;
-  }
-
-  .input-group input {
-    width: 85%;
-  }
-
-  .input-icon {
-    font-size: 14px;
-    top: 10px;
-  }
-
-  .register-btn {
-    font-size: 14px;
-  }
-}
-
-/* Extra Small Phones (≤360px) */
-@media (max-width: 360px) {
-  .register-form {
-    padding: 22px 12px;
-  }
-
-  .input-group input {
-    width: 83%;
-    font-size: 13px;
-  }
-
-  .register-form h2 {
-    font-size: 18px;
-  }
-
-  .register-btn {
-    padding: 8px;
+    font-size: 22px;
   }
 }

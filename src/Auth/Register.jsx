@@ -1,33 +1,78 @@
 import React, { useState } from "react";
-import { FaUser, FaEnvelope, FaPhone, FaCity, FaLock } from "react-icons/fa";
+import axios from "axios";
+import { FaUser, FaEnvelope, FaPhone, FaCity, FaLock, FaMapPin } from "react-icons/fa";
 import "../Styles/AuthStyle/Register.css";
-
+import { useNavigate } from "react-router-dom";
 const Register = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
     phone: "",
     city: "",
+    pincode: "",
     password: "",
+    role: "user",
   });
 
+  const [loading, setLoading] = useState(false);
+
+  // Handle input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  // Handle form submission
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Register Data:", formData);
-    alert("Registration Successful!");
+
+    try {
+      setLoading(true);
+
+      // Send POST request to backend API
+      const res = await axios.post(
+        "https://shop999backend.vercel.app/back-end/rest-API/Secure/api/vi/coroCreateUser/create-coro/api39",
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (res.data.success || res.data.status === true) {
+        alert("✅ press ok for summit the Imformations");
+        setFormData({
+          fullName: "",
+          email: "",
+          phone: "",
+          city: "",
+          pincode: "",
+          password: "",
+          role: "user",
+        });
+       setTimeout(()=>{
+        navigate('/login')
+       })
+      } else {
+        alert(res.data.message || "Something went wrong!");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("❌ Registration failed! Please try again later.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div className="register-container">
       <form className="register-form" onSubmit={handleSubmit}>
-        <h2>Create Account 🖤</h2>
-        <p>Fill your details to register</p>
+        <h2>🖤 Create Account</h2>
+        <p className="form-subtitle">Fill in your details to register</p>
 
+        {/* Full Name */}
         <div className="input-group">
           <FaUser className="input-icon" />
           <input
@@ -36,10 +81,11 @@ const Register = () => {
             placeholder="Full Name"
             value={formData.fullName}
             onChange={handleChange}
-            required
+            
           />
         </div>
 
+        {/* Email */}
         <div className="input-group">
           <FaEnvelope className="input-icon" />
           <input
@@ -48,10 +94,11 @@ const Register = () => {
             placeholder="Email Address"
             value={formData.email}
             onChange={handleChange}
-            required
+            
           />
         </div>
 
+        {/* Phone */}
         <div className="input-group">
           <FaPhone className="input-icon" />
           <input
@@ -60,10 +107,11 @@ const Register = () => {
             placeholder="Phone Number"
             value={formData.phone}
             onChange={handleChange}
-            required
+            
           />
         </div>
 
+        {/* City */}
         <div className="input-group">
           <FaCity className="input-icon" />
           <input
@@ -72,10 +120,24 @@ const Register = () => {
             placeholder="City"
             value={formData.city}
             onChange={handleChange}
-            required
+            
           />
         </div>
 
+        {/* Pincode */}
+        <div className="input-group">
+          <FaMapPin className="input-icon" />
+          <input
+            type="number"
+            name="pincode"
+            placeholder="Pincode"
+            value={formData.pincode}
+            onChange={handleChange}
+            
+          />
+        </div>
+
+        {/* Password */}
         <div className="input-group">
           <FaLock className="input-icon" />
           <input
@@ -84,14 +146,16 @@ const Register = () => {
             placeholder="Password"
             value={formData.password}
             onChange={handleChange}
-            required
+            
           />
         </div>
 
-        <button type="submit" className="register-btn">
-          Register
+        {/* Submit */}
+        <button type="submit" className="register-btn" disabled={loading}>
+          {loading ? "Registering..." : "Register"}
         </button>
 
+        {/* Login Link */}
         <p className="login-link">
           Already have an account? <a href="/login">Login</a>
         </p>
@@ -101,4 +165,3 @@ const Register = () => {
 };
 
 export default Register;
-
