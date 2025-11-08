@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import axios from "axios";
 import { FaUser, FaEnvelope, FaPhone, FaCity, FaLock, FaMapPin } from "react-icons/fa";
 import "../Styles/AuthStyle/Register.css";
 import { useNavigate } from "react-router-dom";
+
 const Register = () => {
   const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -23,26 +24,30 @@ const Register = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  // Handle form submission
+  // Handle form submission using Fetch
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    try {
-      setLoading(true);
+    setLoading(true);
 
-      // Send POST request to backend API
-      const res = await axios.post(
+    try {
+      const response = await fetch(
         "https://shop999backend.vercel.app/back-end/rest-API/Secure/api/vi/coroCreateUser/create-coro/api39",
-        formData,
         {
+          method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
+          body: JSON.stringify(formData),
         }
       );
 
-      if (res.data.success || res.data.status === true) {
-        alert("✅ press ok for summit the Imformations");
+      const data = await response.json();
+
+      if (data.success || data.status === true) {
+        alert("✅ Press OK to submit your information!");
+
+        // Reset form
         setFormData({
           fullName: "",
           email: "",
@@ -52,11 +57,13 @@ const Register = () => {
           password: "",
           role: "user",
         });
-       setTimeout(()=>{
-        navigate('/login')
-       })
+
+        // Redirect after short delay
+        setTimeout(() => {
+          navigate("/login");
+        }, 800);
       } else {
-        alert(res.data.message || "Something went wrong!");
+        alert(data.message || "❌ Something went wrong!");
       }
     } catch (error) {
       console.error("Error:", error);
@@ -81,7 +88,7 @@ const Register = () => {
             placeholder="Full Name"
             value={formData.fullName}
             onChange={handleChange}
-            
+            required
           />
         </div>
 
@@ -94,7 +101,7 @@ const Register = () => {
             placeholder="Email Address"
             value={formData.email}
             onChange={handleChange}
-            
+            required
           />
         </div>
 
@@ -107,7 +114,7 @@ const Register = () => {
             placeholder="Phone Number"
             value={formData.phone}
             onChange={handleChange}
-            
+            required
           />
         </div>
 
@@ -120,7 +127,7 @@ const Register = () => {
             placeholder="City"
             value={formData.city}
             onChange={handleChange}
-            
+            required
           />
         </div>
 
@@ -133,7 +140,7 @@ const Register = () => {
             placeholder="Pincode"
             value={formData.pincode}
             onChange={handleChange}
-            
+            required
           />
         </div>
 
@@ -146,7 +153,7 @@ const Register = () => {
             placeholder="Password"
             value={formData.password}
             onChange={handleChange}
-            
+            required
           />
         </div>
 
