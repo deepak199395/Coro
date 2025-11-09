@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import "../../Styles/EmiregiStyle/EmiStyle.css";
 import { FaPaperPlane } from "react-icons/fa";
 import botAvatar from "../../Assets/botAvatar.png";
+import { useNavigate } from "react-router-dom";
 
 const EmiChatBot = () => {
   const [step, setStep] = useState(0);
@@ -10,6 +11,8 @@ const EmiChatBot = () => {
   const [formData, setFormData] = useState({});
   const [isTyping, setIsTyping] = useState(false);
   const chatEndRef = useRef(null);
+ 
+  const navigate = useNavigate();
 
   const fields = [
     { key: "customerName", question: "What’s your full name?" },
@@ -94,6 +97,10 @@ const EmiChatBot = () => {
             ...prev,
             { sender: "bot", text: "✅ EMI registered successfully! 🎉" },
           ]);
+            setTimeout(() => {
+    navigate("/emidashboard");
+     }, 2000);
+
         } else {
           setMessages((prev) => [
             ...prev,

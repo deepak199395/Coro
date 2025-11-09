@@ -1,0 +1,114 @@
+.emi-dashboard {
+  padding: 30px;
+  background: #f9f9f9;
+  min-height: 100vh;
+  font-family: "Poppins", sans-serif;
+}
+
+.dashboard-title {
+  text-align: center;
+  color: #075e54;
+  margin-bottom: 20px;
+  font-size: 28px;
+}
+
+.search-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.search-container input {
+  width: 60%;
+  max-width: 500px;
+  padding: 10px 15px;
+  border: 2px solid #075e54;
+  border-radius: 25px;
+  outline: none;
+  font-size: 15px;
+  transition: all 0.3s ease;
+}
+
+.search-container input:focus {
+  border-color: #128c7e;
+  box-shadow: 0 0 5px rgba(18, 140, 126, 0.4);
+}
+
+.total-count {
+  text-align: center;
+  color: #444;
+  margin-bottom: 10px;
+}
+
+.loading,
+.no-data {
+  text-align: center;
+  color: #666;
+  margin-top: 50px;
+  font-size: 18px;
+}
+
+.emi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.emi-card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.emi-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.emi-card h3 {
+  color: #333;
+  margin-bottom: 10px;
+  font-size: 20px;
+}
+
+.emi-card p {
+  font-size: 15px;
+  color: #555;
+  margin: 4px 0;
+}
+
+.status {
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 8px;
+  color: #fff;
+}
+
+.status.active {
+  background: #25d366;
+}
+
+.status.closed {
+  background: #f44336;
+}
+
+.date {
+  margin-top: 8px;
+  font-size: 14px;
+  color: #777;
+}
+
+/* Mobile responsive */
+@media (max-width: 600px) {
+  .search-container input {
+    width: 85%;
+  }
+  .emi-dashboard {
+    padding: 15px;
+  }
+  .dashboard-title {
+    font-size: 22px;
+  }
+}
