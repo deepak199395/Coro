@@ -11,11 +11,14 @@ const EmiChatBot = () => {
   const [formData, setFormData] = useState({});
   const [isTyping, setIsTyping] = useState(false);
   const chatEndRef = useRef(null);
- 
+
   const navigate = useNavigate();
 
   const fields = [
     { key: "customerName", question: "What’s your full name?" },
+    { key: "FinanceCompany", question: "What’s your Registerd Finance Company" },
+    { key: "registeredEmail", question: "What’s your Registerd Email" },
+    { key: "registeredMobile", question: "What’s your Registerd Phone" },
     { key: "loanAmount", question: "What’s your Loan Amount?" },
     { key: "rateOfInterestPerAnnum", question: "Interest Rate per annum (e.g. 33%)?" },
     { key: "interestRateType", question: "Interest Rate Type (Fixed / Floating)?" },
@@ -97,9 +100,9 @@ const EmiChatBot = () => {
             ...prev,
             { sender: "bot", text: "✅ EMI registered successfully! 🎉" },
           ]);
-            setTimeout(() => {
-    navigate("/emidashboard");
-     }, 2000);
+          setTimeout(() => {
+            navigate("/emidashboard");
+          }, 2000);
 
         } else {
           setMessages((prev) => [

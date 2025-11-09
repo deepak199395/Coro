@@ -58,7 +58,8 @@ const EmiDashBoard = () => {
           {filteredEmis.map((emi) => (
             <div className="emi-card" key={emi._id}>
               <h3>{emi.customerName}</h3>
-              <p><strong>Customer ID:</strong> {emi.customerId}</p>
+              <p><strong>Loan ID:</strong> {emi.customerId}</p>
+              <p><strong>Finance Company:</strong> {emi.FinanceCompany}</p>
               <p><strong>Loan Amount:</strong> ₹{emi.loanAmount}</p>
               <p><strong>Interest:</strong> {emi.rateOfInterestPerAnnum}</p>
               <p><strong>Type:</strong> {emi.interestRateType}</p>
