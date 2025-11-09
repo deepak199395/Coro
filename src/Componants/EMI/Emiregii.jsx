@@ -1,16 +1,16 @@
 import React, { useState, useEffect, useRef } from "react";
 import "../../Styles/EmiregiStyle/EmiStyle.css";
 import { FaPaperPlane } from "react-icons/fa";
-import botAvatar from "../../Assets/botAvatar.png"; // your chatbot icon (e.g. /src/assets/bot.png)
+import botAvatar from "../../Assets/botAvatar.png";
 
 const EmiChatBot = () => {
   const [step, setStep] = useState(0);
   const [messages, setMessages] = useState([]);
   const [userInput, setUserInput] = useState("");
   const [formData, setFormData] = useState({});
+  const [isTyping, setIsTyping] = useState(false);
   const chatEndRef = useRef(null);
 
-  // Chat fields (excluding customerId since it’s auto-generated)
   const fields = [
     { key: "customerName", question: "What’s your full name?" },
     { key: "loanAmount", question: "What’s your Loan Amount?" },
@@ -30,24 +30,29 @@ const EmiChatBot = () => {
     { key: "loanStatus", question: "Loan Status (Active / Closed)?" },
   ];
 
-  // Scroll to bottom every time new message appears
+  // Auto-scroll on every message
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  // 🧠 Generate random 7-digit Customer ID and greet user
+  // Auto-generate random 7-digit Customer ID
   useEffect(() => {
     const randomId = Math.floor(1000000 + Math.random() * 9000000).toString();
     setFormData((prev) => ({ ...prev, customerId: randomId }));
 
     setMessages([
       { sender: "bot", text: "👋 Hi! I'm your EMI Assistant." },
-      { sender: "bot", text: `Your Customer ID 🪪 is *${randomId}*. Please remember this.` },
-      { sender: "bot", text: "Let's start — What’s your full name?" },
+      { sender: "bot", text: `Your Customer ID 🪪 is <b>${randomId}</b>. Please remember this.` },
     ]);
+
+    // Show first question after typing delay
+    setIsTyping(true);
+    setTimeout(() => {
+      setIsTyping(false);
+      setMessages((prev) => [...prev, { sender: "bot", text: "Let's start — What’s your full name?" }]);
+    }, 1200);
   }, []);
 
-  // Handle Send button click
   const handleSend = async (e) => {
     e.preventDefault();
     if (!userInput.trim()) return;
@@ -55,17 +60,23 @@ const EmiChatBot = () => {
     const currentField = fields[step];
     const newMessages = [...messages, { sender: "user", text: userInput }];
 
-    // Save user's input for current step
     setFormData({ ...formData, [currentField.key]: userInput });
     setUserInput("");
 
-    // If there are more questions left
+    // If more questions left
     if (step + 1 < fields.length) {
       const nextQuestion = fields[step + 1].question;
-      setMessages([...newMessages, { sender: "bot", text: nextQuestion }]);
-      setStep(step + 1);
+      setMessages(newMessages);
+      setIsTyping(true);
+
+      // Simulate bot typing for 1 second
+      setTimeout(() => {
+        setIsTyping(false);
+        setMessages((prev) => [...prev, { sender: "bot", text: nextQuestion }]);
+        setStep(step + 1);
+      }, 1000);
     } else {
-      // All questions answered — submit form
+      // Submit data
       setMessages([...newMessages, { sender: "bot", text: "⏳ Submitting your EMI details..." }]);
       try {
         const res = await fetch(
@@ -76,6 +87,7 @@ const EmiChatBot = () => {
             body: JSON.stringify({ ...formData, [currentField.key]: userInput }),
           }
         );
+
         const data = await res.json();
         if (data.status) {
           setMessages((prev) => [
@@ -88,7 +100,7 @@ const EmiChatBot = () => {
             { sender: "bot", text: "❌ Something went wrong. Please try again." },
           ]);
         }
-      } catch (error) {
+      } catch {
         setMessages((prev) => [
           ...prev,
           { sender: "bot", text: "⚠️ Server error. Try again later." },
@@ -99,7 +111,7 @@ const EmiChatBot = () => {
 
   return (
     <div className="chat-container">
-      {/* 🟢 Header */}
+      {/* Header */}
       <div className="chat-header">
         <img src={botAvatar} alt="Bot Avatar" className="bot-avatar" />
         <div>
@@ -108,20 +120,30 @@ const EmiChatBot = () => {
         </div>
       </div>
 
-      {/* 💬 Messages */}
+      {/* Chat box */}
       <div className="chat-box">
         {messages.map((msg, i) => (
           <div key={i} className={`message ${msg.sender}`}>
-            {msg.sender === "bot" && (
-              <img src={botAvatar} alt="bot" className="bot-icon" />
-            )}
+            {msg.sender === "bot" && <img src={botAvatar} alt="bot" className="bot-icon" />}
             <p dangerouslySetInnerHTML={{ __html: msg.text }}></p>
           </div>
         ))}
+
+        {/* Typing animation */}
+        {isTyping && (
+          <div className="message bot typing">
+            <img src={botAvatar} alt="bot" className="bot-icon" />
+            <div className="typing-dots">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+          </div>
+        )}
         <div ref={chatEndRef} />
       </div>
 
-      {/* ✍️ Input */}
+      {/* Input area */}
       {step < fields.length && (
         <form className="input-area" onSubmit={handleSend}>
           <input
