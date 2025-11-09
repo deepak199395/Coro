@@ -1,324 +1,113 @@
-import React, { useState } from "react";
-import {
-  FaUser,
-  FaRupeeSign,
-  FaPercentage,
-  FaBalanceScale,
-  FaCalendarAlt,
-  FaMoneyCheckAlt,
-  FaListOl,
-  FaClipboardCheck,
-} from "react-icons/fa";
+import React, { useState, useEffect, useRef } from "react";
 import "../../Styles/EmiregiStyle/EmiStyle.css";
 
-const Emiregii = () => {
-  const [formData, setFormData] = useState({
-    customerId: "",
-    customerName: "",
-    loanAmount: "",
-    rateOfInterestPerAnnum: "",
-    interestRateType: "",
-    loanTenureInMonths: "",
-    totalLoanAmountRepaid: "",
-    instalmentAmount: "",
-    loanCreationDate: "",
-    firstInstalmentDate: "",
-    instalmentEndDate: "",
-    totalOutstandingAmount: "",
-    outstandingLoanAmount: "",
-    futurePrincipalComponent: "",
-    futureInterestComponent: "",
-    futureInstalmentNumber: "",
-    loanStatus: "",
-  });
+const EmiChatBot = () => {
+  const [step, setStep] = useState(0);
+  const [messages, setMessages] = useState([
+    { sender: "bot", text: "👋 Hi! Let’s register your EMI. What’s your Customer ID?" },
+  ]);
+  const [userInput, setUserInput] = useState("");
+  const [formData, setFormData] = useState({});
+  const chatEndRef = useRef(null);
 
-  const [loading, setLoading] = useState(false);
+  const fields = [
+    { key: "customerId", question: "What’s your Customer ID?" },
+    { key: "customerName", question: "What’s your full name?" },
+    { key: "loanAmount", question: "What’s your Loan Amount?" },
+    { key: "rateOfInterestPerAnnum", question: "Interest Rate per annum (e.g. 33%)?" },
+    { key: "interestRateType", question: "Interest Rate Type (Fixed / Floating)?" },
+    { key: "loanTenureInMonths", question: "Loan Tenure in months?" },
+    { key: "totalLoanAmountRepaid", question: "Total Loan Amount Repaid?" },
+    { key: "instalmentAmount", question: "Monthly Instalment Amount?" },
+    { key: "loanCreationDate", question: "Loan Creation Date (e.g. 09-Apr-2023)?" },
+    { key: "firstInstalmentDate", question: "First Instalment Date?" },
+    { key: "instalmentEndDate", question: "Instalment End Date?" },
+    { key: "totalOutstandingAmount", question: "Total Outstanding Amount?" },
+    { key: "outstandingLoanAmount", question: "Outstanding Loan Amount?" },
+    { key: "futurePrincipalComponent", question: "Future Principal Component?" },
+    { key: "futureInterestComponent", question: "Future Interest Component?" },
+    { key: "futureInstalmentNumber", question: "Future Instalment Number?" },
+    { key: "loanStatus", question: "Loan Status (Active / Closed)?" },
+  ];
 
-  // Handle input changes
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
+  useEffect(() => {
+    chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
 
-  // Handle form submit
-  const handleSubmit = async (e) => {
+  const handleSend = async (e) => {
     e.preventDefault();
-    setLoading(true);
+    if (!userInput.trim()) return;
 
-    try {
-      const response = await fetch(
-        "https://shop999backend.vercel.app/back-end/rest-API/Secure/api/v1/emi/createEmi/api41", // example endpoint
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(formData),
+    const currentField = fields[step];
+    const newMessages = [
+      ...messages,
+      { sender: "user", text: userInput },
+    ];
+
+    setFormData({ ...formData, [currentField.key]: userInput });
+    setUserInput("");
+
+    if (step + 1 < fields.length) {
+      const nextQuestion = fields[step + 1].question;
+      setMessages([...newMessages, { sender: "bot", text: nextQuestion }]);
+      setStep(step + 1);
+    } else {
+      // Final step: submit data
+      setMessages([...newMessages, { sender: "bot", text: "⏳ Submitting your EMI data..." }]);
+      try {
+        const res = await fetch(
+          "https://shop999backend.vercel.app/back-end/rest-API/Secure/api/v1/emi/createEmi/api41",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ ...formData, [currentField.key]: userInput }),
+          }
+        );
+        const data = await res.json();
+        if (data.status) {
+          setMessages((prev) => [
+            ...prev,
+            { sender: "bot", text: "✅ EMI registered successfully!" },
+          ]);
+        } else {
+          setMessages((prev) => [
+            ...prev,
+            { sender: "bot", text: "❌ Something went wrong. Please try again." },
+          ]);
         }
-      );
-
-      const data = await response.json();
-
-      if (data.status === true) {
-        alert("✅ EMI created successfully!");
-        setFormData({
-          customerId: "",
-          customerName: "",
-          loanAmount: "",
-          rateOfInterestPerAnnum: "",
-          interestRateType: "",
-          loanTenureInMonths: "",
-          totalLoanAmountRepaid: "",
-          instalmentAmount: "",
-          loanCreationDate: "",
-          firstInstalmentDate: "",
-          instalmentEndDate: "",
-          totalOutstandingAmount: "",
-          outstandingLoanAmount: "",
-          futurePrincipalComponent: "",
-          futureInterestComponent: "",
-          futureInstalmentNumber: "",
-          loanStatus: "",
-        });
-      } else {
-        alert(data.message || "❌ Something went wrong!");
+      } catch (error) {
+        setMessages((prev) => [
+          ...prev,
+          { sender: "bot", text: "⚠️ Server error. Try again later." },
+        ]);
       }
-    } catch (error) {
-      console.error("Error:", error);
-      alert("⚠️ Server error. Please try again later.");
-    } finally {
-      setLoading(false);
     }
   };
 
   return (
-    <div className="emi-page-container">
-      <form className="emi-form-container" onSubmit={handleSubmit}>
-        <h2>📄 EMI Registration Form</h2>
-        <p>Fill in all loan details below</p>
+    <div className="chat-container">
+      <div className="chat-box">
+        {messages.map((msg, i) => (
+          <div key={i} className={`message ${msg.sender}`}>
+            <p>{msg.text}</p>
+          </div>
+        ))}
+        <div ref={chatEndRef} />
+      </div>
 
-        {/* Customer ID */}
-        <div className="input-group">
-          <FaListOl className="input-icon" />
+      {step < fields.length && (
+        <form className="input-area" onSubmit={handleSend}>
           <input
             type="text"
-            name="customerId"
-            placeholder="Customer ID"
-            value={formData.customerId}
-            onChange={handleChange}
-            required
+            value={userInput}
+            onChange={(e) => setUserInput(e.target.value)}
+            placeholder="Type your answer..."
           />
-        </div>
-
-        {/* Customer Name */}
-        <div className="input-group">
-          <FaUser className="input-icon" />
-          <input
-            type="text"
-            name="customerName"
-            placeholder="Customer Name"
-            value={formData.customerName}
-            onChange={handleChange}
-            required
-          />
-        </div>
-
-        {/* Loan Amount */}
-        <div className="input-group">
-          <FaRupeeSign className="input-icon" />
-          <input
-            type="number"
-            name="loanAmount"
-            placeholder="Loan Amount"
-            value={formData.loanAmount}
-            onChange={handleChange}
-            required
-          />
-        </div>
-
-        {/* Interest Rate */}
-        <div className="input-group">
-          <FaPercentage className="input-icon" />
-          <input
-            type="text"
-            name="rateOfInterestPerAnnum"
-            placeholder="Rate of Interest (e.g. 33%)"
-            value={formData.rateOfInterestPerAnnum}
-            onChange={handleChange}
-            required
-          />
-        </div>
-
-        {/* Interest Rate Type */}
-        <div className="input-group">
-          <FaBalanceScale className="input-icon" />
-          <input
-            type="text"
-            name="interestRateType"
-            placeholder="Interest Rate Type (Fixed / Floating)"
-            value={formData.interestRateType}
-            onChange={handleChange}
-            required
-          />
-        </div>
-
-        {/* Loan Tenure */}
-        <div className="input-group">
-          <FaCalendarAlt className="input-icon" />
-          <input
-            type="number"
-            name="loanTenureInMonths"
-            placeholder="Loan Tenure (Months)"
-            value={formData.loanTenureInMonths}
-            onChange={handleChange}
-            required
-          />
-        </div>
-
-        {/* Total Loan Amount Repaid */}
-        <div className="input-group">
-          <FaMoneyCheckAlt className="input-icon" />
-          <input
-            type="number"
-            name="totalLoanAmountRepaid"
-            placeholder="Total Loan Amount Repaid"
-            value={formData.totalLoanAmountRepaid}
-            onChange={handleChange}
-            required
-          />
-        </div>
-
-        {/* Instalment Amount */}
-        <div className="input-group">
-          <FaMoneyCheckAlt className="input-icon" />
-          <input
-            type="number"
-            name="instalmentAmount"
-            placeholder="Instalment Amount"
-            value={formData.instalmentAmount}
-            onChange={handleChange}
-            required
-          />
-        </div>
-
-        {/* Loan Dates */}
-        <div className="input-group">
-          <FaCalendarAlt className="input-icon" />
-          <input
-            type="text"
-            name="loanCreationDate"
-            placeholder="Loan Creation Date (e.g. 09-Apr-2023)"
-            value={formData.loanCreationDate}
-            onChange={handleChange}
-            required
-          />
-        </div>
-
-        <div className="input-group">
-          <FaCalendarAlt className="input-icon" />
-          <input
-            type="text"
-            name="firstInstalmentDate"
-            placeholder="First Instalment Date (e.g. 02-May-2023)"
-            value={formData.firstInstalmentDate}
-            onChange={handleChange}
-            required
-          />
-        </div>
-
-        <div className="input-group">
-          <FaCalendarAlt className="input-icon" />
-          <input
-            type="text"
-            name="instalmentEndDate"
-            placeholder="Instalment End Date (e.g. 02-Apr-2026)"
-            value={formData.instalmentEndDate}
-            onChange={handleChange}
-            required
-          />
-        </div>
-
-        {/* Outstanding Amounts */}
-        <div className="input-group">
-          <FaRupeeSign className="input-icon" />
-          <input
-            type="number"
-            name="totalOutstandingAmount"
-            placeholder="Total Outstanding Amount"
-            value={formData.totalOutstandingAmount}
-            onChange={handleChange}
-            required
-          />
-        </div>
-
-        <div className="input-group">
-          <FaRupeeSign className="input-icon" />
-          <input
-            type="number"
-            name="outstandingLoanAmount"
-            placeholder="Outstanding Loan Amount"
-            value={formData.outstandingLoanAmount}
-            onChange={handleChange}
-            required
-          />
-        </div>
-
-        {/* Future Components */}
-        <div className="input-group">
-          <FaRupeeSign className="input-icon" />
-          <input
-            type="number"
-            name="futurePrincipalComponent"
-            placeholder="Future Principal Component"
-            value={formData.futurePrincipalComponent}
-            onChange={handleChange}
-            required
-          />
-        </div>
-
-        <div className="input-group">
-          <FaRupeeSign className="input-icon" />
-          <input
-            type="number"
-            name="futureInterestComponent"
-            placeholder="Future Interest Component"
-            value={formData.futureInterestComponent}
-            onChange={handleChange}
-            required
-          />
-        </div>
-
-        {/* Instalment Number */}
-        <div className="input-group">
-          <FaListOl className="input-icon" />
-          <input
-            type="number"
-            name="futureInstalmentNumber"
-            placeholder="Future Instalment Number"
-            value={formData.futureInstalmentNumber}
-            onChange={handleChange}
-            required
-          />
-        </div>
-
-        {/* Loan Status */}
-        <div className="input-group">
-          <FaClipboardCheck className="input-icon" />
-          <input
-            type="text"
-            name="loanStatus"
-            placeholder="Loan Status (Active / Closed)"
-            value={formData.loanStatus}
-            onChange={handleChange}
-            required
-          />
-        </div>
-
-        {/* Submit Button */}
-        <button type="submit" className="emi-submit-btn" disabled={loading}>
-          {loading ? "Submitting..." : "Submit EMI Details"}
-        </button>
-      </form>
+          <button type="submit">Send</button>
+        </form>
+      )}
     </div>
   );
 };
 
-export default Emiregii;
+export default EmiChatBot;
