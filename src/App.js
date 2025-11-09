@@ -7,6 +7,7 @@ import Login from './Auth/Login';
 import Register from './Auth/Register';
 import Emiregii from './Componants/EMI/Emiregii';
 import EmiDashBoard from './Componants/EMI/EmiDashBoard';
+import Emi from './Componants/EMI/Emi';
 
 const App = () => {
   return (
@@ -20,6 +21,7 @@ const App = () => {
           <Route path='/register' element={<Register/>}/>
           <Route path='/emiregi' element={<Emiregii/>}/>
           <Route path='/emidashboard' element={<EmiDashBoard/>}/>
+          <Route path='/emi' element={<Emi/>}/>
         </Routes>
       </BrowserRouter>
     </>

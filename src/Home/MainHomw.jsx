@@ -10,7 +10,7 @@ const MainHome = () => {
     navigate(path);
   };
   return (
-    <div className="main-container" onClick={() => handleNavigation('/emiregi')}>
+    <div className="main-container" onClick={() => handleNavigation('/emi')}>
       <div className="card" >
         <FaMoneyCheckAlt className='card-icon' />
         <h3>Loans & EMI</h3>
