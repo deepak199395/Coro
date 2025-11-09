@@ -1,19 +1,17 @@
 import React, { useState, useEffect, useRef } from "react";
 import "../../Styles/EmiregiStyle/EmiStyle.css";
 import { FaPaperPlane } from "react-icons/fa";
-import botAvatar from "../../Assets/botAvatar.png"; // 🧠 You can add a bot.png image to your /src/assets folder
+import botAvatar from "../../Assets/botAvatar.png"; // your chatbot icon (e.g. /src/assets/bot.png)
 
 const EmiChatBot = () => {
   const [step, setStep] = useState(0);
-  const [messages, setMessages] = useState([
-    { sender: "bot", text: "👋 Hi! I'm your EMI Assistant. Let's start with your Customer ID." },
-  ]);
+  const [messages, setMessages] = useState([]);
   const [userInput, setUserInput] = useState("");
   const [formData, setFormData] = useState({});
   const chatEndRef = useRef(null);
 
+  // Chat fields (excluding customerId since it’s auto-generated)
   const fields = [
-    { key: "customerId", question: "What’s your Customer ID?" },
     { key: "customerName", question: "What’s your full name?" },
     { key: "loanAmount", question: "What’s your Loan Amount?" },
     { key: "rateOfInterestPerAnnum", question: "Interest Rate per annum (e.g. 33%)?" },
@@ -32,30 +30,43 @@ const EmiChatBot = () => {
     { key: "loanStatus", question: "Loan Status (Active / Closed)?" },
   ];
 
+  // Scroll to bottom every time new message appears
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
+  // 🧠 Generate random 7-digit Customer ID and greet user
+  useEffect(() => {
+    const randomId = Math.floor(1000000 + Math.random() * 9000000).toString();
+    setFormData((prev) => ({ ...prev, customerId: randomId }));
+
+    setMessages([
+      { sender: "bot", text: "👋 Hi! I'm your EMI Assistant." },
+      { sender: "bot", text: `Your Customer ID 🪪 is *${randomId}*. Please remember this.` },
+      { sender: "bot", text: "Let's start — What’s your full name?" },
+    ]);
+  }, []);
+
+  // Handle Send button click
   const handleSend = async (e) => {
     e.preventDefault();
     if (!userInput.trim()) return;
 
     const currentField = fields[step];
-    const newMessages = [
-      ...messages,
-      { sender: "user", text: userInput },
-    ];
+    const newMessages = [...messages, { sender: "user", text: userInput }];
 
+    // Save user's input for current step
     setFormData({ ...formData, [currentField.key]: userInput });
     setUserInput("");
 
+    // If there are more questions left
     if (step + 1 < fields.length) {
       const nextQuestion = fields[step + 1].question;
       setMessages([...newMessages, { sender: "bot", text: nextQuestion }]);
       setStep(step + 1);
     } else {
-      // Final step: submit data
-      setMessages([...newMessages, { sender: "bot", text: "⏳ Submitting your EMI data..." }]);
+      // All questions answered — submit form
+      setMessages([...newMessages, { sender: "bot", text: "⏳ Submitting your EMI details..." }]);
       try {
         const res = await fetch(
           "https://shop999backend.vercel.app/back-end/rest-API/Secure/api/v1/emi/create-emi/api41",
@@ -88,7 +99,7 @@ const EmiChatBot = () => {
 
   return (
     <div className="chat-container">
-      {/* 🟩 HEADER SECTION */}
+      {/* 🟢 Header */}
       <div className="chat-header">
         <img src={botAvatar} alt="Bot Avatar" className="bot-avatar" />
         <div>
@@ -97,20 +108,20 @@ const EmiChatBot = () => {
         </div>
       </div>
 
-      {/* 💬 CHAT MESSAGES */}
+      {/* 💬 Messages */}
       <div className="chat-box">
         {messages.map((msg, i) => (
           <div key={i} className={`message ${msg.sender}`}>
             {msg.sender === "bot" && (
               <img src={botAvatar} alt="bot" className="bot-icon" />
             )}
-            <p>{msg.text}</p>
+            <p dangerouslySetInnerHTML={{ __html: msg.text }}></p>
           </div>
         ))}
         <div ref={chatEndRef} />
       </div>
 
-      {/* ✍️ INPUT AREA */}
+      {/* ✍️ Input */}
       {step < fields.length && (
         <form className="input-area" onSubmit={handleSend}>
           <input
