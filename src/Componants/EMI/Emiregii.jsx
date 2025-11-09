@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import "../../Styles/EmiregiStyle/EmiStyle.css";
+import { FaPaperPlane } from "react-icons/fa";
+import botAvatar from "../../Assets/botAvatar.png"; // 🧠 You can add a bot.png image to your /src/assets folder
 
 const EmiChatBot = () => {
   const [step, setStep] = useState(0);
   const [messages, setMessages] = useState([
-    { sender: "bot", text: "👋 Hi! Let’s register your EMI. What’s your Customer ID?" },
+    { sender: "bot", text: "👋 Hi! I'm your EMI Assistant. Let's start with your Customer ID." },
   ]);
   const [userInput, setUserInput] = useState("");
   const [formData, setFormData] = useState({});
@@ -16,7 +18,7 @@ const EmiChatBot = () => {
     { key: "loanAmount", question: "What’s your Loan Amount?" },
     { key: "rateOfInterestPerAnnum", question: "Interest Rate per annum (e.g. 33%)?" },
     { key: "interestRateType", question: "Interest Rate Type (Fixed / Floating)?" },
-    { key: "loanTenureInMonths", question: "Loan Tenure in months?" },
+    { key: "loanTenureInMonths", question: "Loan Tenure (Months)?" },
     { key: "totalLoanAmountRepaid", question: "Total Loan Amount Repaid?" },
     { key: "instalmentAmount", question: "Monthly Instalment Amount?" },
     { key: "loanCreationDate", question: "Loan Creation Date (e.g. 09-Apr-2023)?" },
@@ -56,7 +58,7 @@ const EmiChatBot = () => {
       setMessages([...newMessages, { sender: "bot", text: "⏳ Submitting your EMI data..." }]);
       try {
         const res = await fetch(
-          "https://shop999backend.vercel.app/back-end/rest-API/Secure/api/v1/emi/createEmi/api41",
+          "https://shop999backend.vercel.app/back-end/rest-API/Secure/api/v1/emi/create-emi/api41",
           {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -67,7 +69,7 @@ const EmiChatBot = () => {
         if (data.status) {
           setMessages((prev) => [
             ...prev,
-            { sender: "bot", text: "✅ EMI registered successfully!" },
+            { sender: "bot", text: "✅ EMI registered successfully! 🎉" },
           ]);
         } else {
           setMessages((prev) => [
@@ -86,15 +88,29 @@ const EmiChatBot = () => {
 
   return (
     <div className="chat-container">
+      {/* 🟩 HEADER SECTION */}
+      <div className="chat-header">
+        <img src={botAvatar} alt="Bot Avatar" className="bot-avatar" />
+        <div>
+          <h3>EMI Assistant 🤖</h3>
+          <p>Online now</p>
+        </div>
+      </div>
+
+      {/* 💬 CHAT MESSAGES */}
       <div className="chat-box">
         {messages.map((msg, i) => (
           <div key={i} className={`message ${msg.sender}`}>
+            {msg.sender === "bot" && (
+              <img src={botAvatar} alt="bot" className="bot-icon" />
+            )}
             <p>{msg.text}</p>
           </div>
         ))}
         <div ref={chatEndRef} />
       </div>
 
+      {/* ✍️ INPUT AREA */}
       {step < fields.length && (
         <form className="input-area" onSubmit={handleSend}>
           <input
@@ -103,7 +119,9 @@ const EmiChatBot = () => {
             onChange={(e) => setUserInput(e.target.value)}
             placeholder="Type your answer..."
           />
-          <button type="submit">Send</button>
+          <button type="submit">
+            <FaPaperPlane />
+          </button>
         </form>
       )}
     </div>
