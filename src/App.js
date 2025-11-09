@@ -5,6 +5,8 @@ import Header from './Componants/Layout/Header';
 import Footer from './Componants/Layout/Footer';
 import Login from './Auth/Login';
 import Register from './Auth/Register';
+import Emiregii from './Componants/EMI/Emiregii';
+import EmiDashBoard from './Componants/EMI/EmiDashBoard';
 
 const App = () => {
   return (
@@ -16,6 +18,8 @@ const App = () => {
           <Route path='/footer' element={<Footer />} />
           <Route path='/login' element={<Login/>}/>
           <Route path='/register' element={<Register/>}/>
+          <Route path='/emiregi' element={<Emiregii/>}/>
+          <Route path='/emidashboard' element={<EmiDashBoard/>}/>
         </Routes>
       </BrowserRouter>
     </>
