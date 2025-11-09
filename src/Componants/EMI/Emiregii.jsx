@@ -69,7 +69,7 @@ const EmiChatBot = () => {
       setMessages([...newMessages, { sender: "bot", text: "⏳ Submitting your EMI details..." }]);
       try {
         const res = await fetch(
-          "https://shop999backend.vercel.app/back-end/rest-API/Secure/api/v1/emi/create-emi/api41",
+          "https://shop999backend.vercel.app/back-end/rest-API/Secure/api/v1/foremi-details/FOX-EMI/api42",
           {
             method: "POST",
             headers: { "Content-Type": "application/json" },
