@@ -168,7 +168,7 @@ const EmiChatBot = () => {
         onChange={(val) => setUserInput(val)}
       />
     ) : (
-      // Normal text input for others
+       // Normal text input for others
       <input
         type="text"
         value={userInput}
