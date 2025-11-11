@@ -1,0 +1,77 @@
+/* ===== PickerStyles.css ===== */
+
+.input-wrapper {
+  display: flex;
+  flex-direction: column;
+  margin: 10px 0;
+  width: 100%;
+}
+
+.input-label {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #444;
+  margin-bottom: 6px;
+  transition: color 0.2s ease-in-out;
+}
+
+/* 🔽 Dropdown (used in CountryPicker) */
+.normal-select {
+  padding: 10px 14px;
+  border: 1.5px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  color: #333;
+  background-color: #fff;
+  transition: all 0.3s ease;
+  outline: none;
+  cursor: pointer;
+}
+
+/* 💰 Amount input */
+.normal-input {
+  padding: 10px 14px;
+  border: 1.5px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  color: #333;
+  background-color: #fff;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.normal-select:hover,
+.normal-input:hover {
+  border-color: #888;
+}
+
+.normal-select:focus,
+.normal-input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 4px rgba(0, 123, 255, 0.3);
+}
+
+/* ⚠️ Error states */
+.input-error {
+  border-color: #ff4d4d;
+  box-shadow: 0 0 3px rgba(255, 0, 0, 0.2);
+}
+
+.input-error-text {
+  color: #ff4d4d;
+  font-size: 0.85rem;
+  margin-top: 4px;
+}
+
+/* 📱 Responsive */
+@media (max-width: 600px) {
+  .normal-input,
+  .normal-select {
+    font-size: 0.95rem;
+    padding: 8px 10px;
+  }
+
+  .input-label {
+    font-size: 0.9rem;
+  }
+}

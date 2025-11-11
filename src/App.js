@@ -8,6 +8,8 @@ import Register from './Auth/Register';
 import Emiregii from './Componants/EMI/Emiregii';
 import EmiDashBoard from './Componants/EMI/EmiDashBoard';
 import Emi from './Componants/EMI/Emi';
+import DatePickerInput from './Componants/Common/DatePickerInput';
+import NormalTextInput from './Componants/Common/NormalTextInput';
 
 const App = () => {
   return (
@@ -22,6 +24,8 @@ const App = () => {
           <Route path='/emiregi' element={<Emiregii/>}/>
           <Route path='/emidashboard' element={<EmiDashBoard/>}/>
           <Route path='/emi' element={<Emi/>}/>
+          <Route path='/datepicker' element={<DatePickerInput/>}/>
+          <Route path='/textInputpicker' element={<NormalTextInput/>}/>
         </Routes>
       </BrowserRouter>
     </>

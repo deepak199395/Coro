@@ -3,7 +3,7 @@ import "../../Styles/EmiregiStyle/EmiStyle.css";
 import { FaPaperPlane } from "react-icons/fa";
 import botAvatar from "../../Assets/botAvatar.png";
 import { useNavigate } from "react-router-dom";
-
+import DatePickerInput from "../Common/DatePickerInput";
 const EmiChatBot = () => {
   const [step, setStep] = useState(0);
   const [messages, setMessages] = useState([]);
@@ -154,19 +154,35 @@ const EmiChatBot = () => {
       </div>
 
       {/* Input area */}
-      {step < fields.length && (
-        <form className="input-area" onSubmit={handleSend}>
-          <input
-            type="text"
-            value={userInput}
-            onChange={(e) => setUserInput(e.target.value)}
-            placeholder="Type your answer..."
-          />
-          <button type="submit">
-            <FaPaperPlane />
-          </button>
-        </form>
-      )}
+      {/* Input area */}
+{step < fields.length && (
+  <form className="input-area" onSubmit={handleSend}>
+    {[
+      "loanCreationDate",
+      "firstInstalmentDate",
+      "instalmentEndDate",
+    ].includes(fields[step].key) ? (
+      // Show date picker for date fields
+      <DatePickerInput
+        value={userInput}
+        onChange={(val) => setUserInput(val)}
+      />
+    ) : (
+      // Normal text input for others
+      <input
+        type="text"
+        value={userInput}
+        onChange={(e) => setUserInput(e.target.value)}
+        placeholder="Type your answer..."
+      />
+    )}
+
+    <button type="submit">
+      <FaPaperPlane />
+    </button>
+  </form>
+)}
+
     </div>
   );
 };
