@@ -1,18 +1,37 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import "../../Styles/EmiregiStyle/Emi.css"
 const Emi = () => {
   const navigate = useNavigate();
+  const [totalOutstanding, setTotalOutstanding] = useState(0);
+  const [emiList, setEmiList] = useState([]);
+
+  useEffect(() => {
+    fetch("https://shop999backend.vercel.app/back-end/rest-API/Secure/api/v1/foremi-details/FOX-EMI/api42")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data && data.allEmi) {
+            setEmiList(data.allEmi);
+
+          // SUM totalOutstandingAmount from all EMI entries
+            const total = data.allEmi.reduce((sum, emi) => {
+            const value = Number(emi.totalOutstandingAmount) || 0;
+            return sum + value;
+          }, 0);
+
+          setTotalOutstanding(total);
+        }
+      })
+      .catch((err) => console.error("Error fetching EMI data:", err));
+  }, []);
 
   const handleCreateEmi = () => {
-    // Navigate instantly (or after 1 sec)
     setTimeout(() => {
       navigate("/emiregi");
     }, 1000);
   };
 
   const handleViewEmi = () => {
-    // Navigate to EMI view page (you can change this path)
     navigate("/emidashboard");
   };
 
@@ -20,7 +39,24 @@ const Emi = () => {
     <div style={{ textAlign: "center", marginTop: "50px" }}>
       <h2>EMI Dashboard</h2>
 
-      <div style={{ marginTop: "30px" }}>
+      {/* 👉 TOTAL OUTSTANDING AMOUNT */}
+      <div>
+        <h3>Total Remaining Amount :-</h3>
+        <h1 style={{ color: "red" }}>₹ {totalOutstanding.toLocaleString()}</h1>
+      </div>
+     {/* EMI CARDS LIST */}
+      <div className="emi-card-grid">
+        {emiList.map((emi) => (
+          <div className="emi-card-home" key={emi._id}>
+            <h3>{emi.FinanceCompany}</h3>
+               <p><strong>Remaining Tenure:</strong> {emi.RemainloanTenureInMonths} months</p>
+            <p><strong>Total Repaid:</strong> ₹{emi.totalLoanAmountRepaid}</p>
+            <p><strong>Outstanding:</strong> ₹{emi.outstandingLoanAmount}</p>
+          </div>
+        ))}
+      </div>
+
+      <div style={{ marginTop:"30px"}}>
         <button
           onClick={handleCreateEmi}
           style={{
