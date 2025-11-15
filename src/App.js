@@ -10,6 +10,7 @@ import EmiDashBoard from './Componants/EMI/EmiDashBoard';
 import Emi from './Componants/EMI/Emi';
 import DatePickerInput from './Componants/Common/DatePickerInput';
 import NormalTextInput from './Componants/Common/NormalTextInput';
+import EmiScreen from './Componants/EMI/EmiScreen';
 
 const App = () => {
   return (
@@ -26,6 +27,7 @@ const App = () => {
           <Route path='/emi' element={<Emi/>}/>
           <Route path='/datepicker' element={<DatePickerInput/>}/>
           <Route path='/textInputpicker' element={<NormalTextInput/>}/>
+          <Route path='/emiscreen' element={<EmiScreen/>}/>
         </Routes>
       </BrowserRouter>
     </>

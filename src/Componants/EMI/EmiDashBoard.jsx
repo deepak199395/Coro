@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
 import "../../Styles/EmiregiStyle/EmiDashboard.css";
+import { useNavigate } from "react-router-dom";
 
 const EmiDashBoard = () => {
   const [emis, setEmi] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
+
+const navigate = useNavigate();
 
   useEffect(() => {
     fetch("https://shop999backend.vercel.app/back-end/rest-API/Secure/api/v1/foremi-details/FOX-EMI/api42")
@@ -56,7 +59,10 @@ const EmiDashBoard = () => {
       ) : (
         <div className="emi-grid">
           {filteredEmis.map((emi) => (
-            <div className="emi-card" key={emi._id}>
+            <div className="emi-card" key={emi._id}
+            onClick={()=>navigate("/emiscreen",{state:emi})}
+            style={{ cursor: "pointer" }}>
+
               <h3>{emi.customerName}</h3>
               <p><strong>Loan ID:</strong> {emi.customerId}</p>
               <p><strong>Finance Company:</strong> {emi.FinanceCompany}</p>
