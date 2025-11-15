@@ -23,6 +23,7 @@ const EmiChatBot = () => {
     { key: "rateOfInterestPerAnnum", question: "Interest Rate per annum (e.g. 33%)?" },
     { key: "interestRateType", question: "Interest Rate Type (Fixed / Floating)?" },
     { key: "loanTenureInMonths", question: "Loan Tenure (Months)?" },
+    { key: "RemainloanTenureInMonths", question: " Remaining Loan Tenure (Months)?" },
     { key: "totalLoanAmountRepaid", question: "Total Loan Amount Repaid?" },
     { key: "instalmentAmount", question: "Monthly Instalment Amount?" },
     { key: "loanCreationDate", question: "Loan Creation Date (e.g. 09-Apr-2023)?" },

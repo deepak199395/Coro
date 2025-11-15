@@ -16,11 +16,13 @@ const EmiScreen = () => {
       {/* Customer Section */}
       <h3 className="section-title">Customer Information</h3>
       <div className="detail-row"><strong>Name:</strong> <span>{state.customerName}</span></div>
+      <div className="detail-row"><strong>Customer ID:</strong> <span>{state.customerId}</span></div>
       <div className="detail-row"><strong>Finance Company:</strong> <span>{state.FinanceCompany}</span></div>
 
       {/* Loan Section */}
       <h3 className="section-title">Loan Information</h3>
       <div className="detail-row"><strong>Loan Amount:</strong> <span>₹{state.loanAmount}</span></div>
+      <div className="detail-row"><strong>Interest Rate:</strong> <span>{state.rateOfInterestPerAnnum}</span></div>
       <div className="detail-row"><strong>Interest Type:</strong> <span>{state.interestRateType}</span></div>
       <div className="detail-row"><strong>Tenure:</strong> <span>{state.loanTenureInMonths} months</span></div>
       <div className="detail-row"><strong>Outstanding Amount:</strong> <span>₹{state.outstandingLoanAmount}</span></div>
