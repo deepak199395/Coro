@@ -11,6 +11,9 @@ import Emi from './Componants/EMI/Emi';
 import DatePickerInput from './Componants/Common/DatePickerInput';
 import NormalTextInput from './Componants/Common/NormalTextInput';
 import EmiScreen from './Componants/EMI/EmiScreen';
+import SIPInvestments from './Home/SIPInvestments';
+import DocumentsBills from './Home/DocumentsBills';
+import DailyExpenses from './Home/DailyExpenses';
 
 const App = () => {
   return (
@@ -28,6 +31,9 @@ const App = () => {
           <Route path='/datepicker' element={<DatePickerInput/>}/>
           <Route path='/textInputpicker' element={<NormalTextInput/>}/>
           <Route path='/emiscreen' element={<EmiScreen/>}/>
+          <Route path="/SIPInvestments" element={<SIPInvestments/>}/>
+          <Route path='/DocumentsBills' element={<DocumentsBills/>}/>
+          <Route path='/dailyExpenses' element={<DailyExpenses/>}/>
         </Routes>
       </BrowserRouter>
     </>

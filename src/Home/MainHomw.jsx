@@ -10,26 +10,26 @@ const MainHome = () => {
     navigate(path);
   };
   return (
-    <div className="main-container" onClick={() => handleNavigation('/emi')}>
-      <div className="card" >
+    <div className="main-container" >
+      <div className="card" onClick={() => handleNavigation('/emi')}>
         <FaMoneyCheckAlt className='card-icon' />
         <h3>Loans & EMI</h3>
         <p>You can manage and track your EMI dues. You can also view details of pending and paid EMIs.</p>
       </div>
 
-      <div className="card">
+      <div className="card" onClick={() => handleNavigation('/dailyExpenses')}>
         <FaWallet className="card-icon" />
         <h3>Daily Expenses</h3>
         <p>Track your daily spending and analyze where your money goes.</p>
       </div>
 
-      <div className="card">
+      <div className="card" onClick={() => handleNavigation('/SIPInvestments')}>
         <FaChartLine className="card-icon" />
         <h3>SIP & Investments</h3>
         <p>Monitor your SIPs, mutual funds, and investment growth over time.</p>
       </div>
 
-      <div className="card">
+      <div className="card" onClick={() => handleNavigation('/DocumentsBills')}>
         <FaFileInvoice className="card-icon" />
         <h3>Documents & Bills</h3>
         <p>Upload and manage your financial documents and monthly bills securely.</p>
