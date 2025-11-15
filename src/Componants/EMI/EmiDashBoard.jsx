@@ -70,6 +70,7 @@ const navigate = useNavigate();
               <p><strong>Interest:</strong> {emi.rateOfInterestPerAnnum}</p>
               <p><strong>Type:</strong> {emi.interestRateType}</p>
               <p><strong>Tenure:</strong> {emi.loanTenureInMonths} months</p>
+              <p><strong>Tenure:</strong> {emi.RemainloanTenureInMonths} months</p>
               <p><strong>Outstanding:</strong> ₹{emi.outstandingLoanAmount}</p>
               <p><strong>Status:</strong> <span className={`status ${emi.loanStatus.toLowerCase()}`}>{emi.loanStatus}</span></p>
               <p className="date">

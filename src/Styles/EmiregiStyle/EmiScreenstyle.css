@@ -100,6 +100,46 @@
 .back-btn:hover {
   background: #357ac9;
 }
+/* TENURE BOX STYLE */
+.tenure-box-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 15px 0;
+}
+
+.tenure-box {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 13px;
+  font-weight: bold;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.tenure-box.completed {
+  background: #28a745;
+  color: white;
+  border-color: #1d7a33;
+}
+
+.tenure-box.remaining {
+  background: #e0e0e0;
+  color: #333;
+  border-color: #bdbdbd;
+}
+
+/* Responsive */
+@media(max-width: 768px) {
+  .tenure-box {
+    width: 32px;
+    height: 32px;
+    font-size: 11px;
+  }
+}
 
 /* Animation */
 @keyframes fadeIn {
