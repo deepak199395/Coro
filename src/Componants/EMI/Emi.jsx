@@ -38,24 +38,6 @@ const Emi = () => {
   return (
     <div style={{ textAlign: "center", marginTop: "50px" }}>
       <h2>EMI Dashboard</h2>
-
-      {/* 👉 TOTAL OUTSTANDING AMOUNT */}
-      <div>
-        <h3>Total Remaining Amount :-</h3>
-        <h1 style={{ color: "red" }}>₹ {totalOutstanding.toLocaleString()}</h1>
-      </div>
-     {/* EMI CARDS LIST */}
-      <div className="emi-card-grid">
-        {emiList.map((emi) => (
-          <div className="emi-card-home" key={emi._id}>
-            <h3>{emi.FinanceCompany}</h3>
-               <p><strong>Remaining Tenure:</strong> {emi.RemainloanTenureInMonths} months</p>
-            <p><strong>Total Repaid:</strong> ₹{emi.totalLoanAmountRepaid}</p>
-            <p><strong>Outstanding:</strong> ₹{emi.outstandingLoanAmount}</p>
-          </div>
-        ))}
-      </div>
-
       <div style={{ marginTop:"30px"}}>
         <button
           onClick={handleCreateEmi}
@@ -80,6 +62,24 @@ const Emi = () => {
           👁️ View EMI
         </button>
       </div>
+      {/* 👉 TOTAL OUTSTANDING AMOUNT */}
+      <div>
+        <h3>Total Remaining Amount :-</h3>
+        <h1 style={{ color: "red" }}>₹ {totalOutstanding.toLocaleString()}</h1>
+      </div>
+     {/* EMI CARDS LIST */}
+      <div className="emi-card-grid">
+        {emiList.map((emi) => (
+          <div className="emi-card-home" key={emi._id}>
+            <h3>{emi.FinanceCompany}</h3>
+               <p><strong>Remaining Tenure:</strong> {emi.RemainloanTenureInMonths} months</p>
+            <p><strong>Total Repaid:</strong> ₹{emi.totalLoanAmountRepaid}</p>
+            <p><strong>Outstanding:</strong> ₹{emi.outstandingLoanAmount}</p>
+          </div>
+        ))}
+      </div>
+
+      
     </div>
   );
 };
