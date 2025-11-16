@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import img1 from "../../Assets/botAvatar.png"
 import img2 from "../../Assets/images.jpeg"
 import img3 from "../../Assets/loan-management-software.jpg"
 import img4 from "../../Assets/lon_mangmntprcs.jpg"
 import img5 from "../../Assets/thumbnail-banner-100-1.png"
 import '../../Styles/CommonStyle/Carosel.css'
 
-const images = [img1, img2, img3, img4, img5];
+const images = [ img2, img3, img4, img5];
 
 const Carosel = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
