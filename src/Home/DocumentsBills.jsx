@@ -1,9 +1,9 @@
 import React from 'react'
-
+import CommingPage from '../Componants/compo/CommingPage.jsx'
 const DocumentsBills = () => {
   return (
     <div>
-      <h1>DocumentsBills</h1>
+      <CommingPage/>
     </div>
   )
 }

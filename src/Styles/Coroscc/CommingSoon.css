@@ -1,0 +1,73 @@
+/* ================================
+   MAIN CONTAINER
+================================ */
+.coming-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: #f7f9fc;
+  text-align: center;
+  animation: fadeIn 0.5s ease;
+}
+
+/* ================================
+   LOADER ANIMATION
+================================ */
+.loader {
+  width: 60px;
+  height: 60px;
+  border: 6px solid #d2d8ff;
+  border-top: 6px solid #4a90e2;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 20px;
+}
+
+/* Loader Rotation */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* ================================
+   TEXT
+================================ */
+.coming-title {
+  font-size: 32px;
+  font-weight: 700;
+  color: #333;
+  margin: 10px 0;
+}
+
+.coming-text {
+  font-size: 18px;
+  color: #555;
+}
+
+/* ================================
+   FADE-IN EFFECT
+================================ */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ================================
+   RESPONSIVE
+================================ */
+@media (max-width: 600px) {
+  .coming-title {
+    font-size: 26px;
+  }
+
+  .coming-text {
+    font-size: 16px;
+  }
+
+  .loader {
+    width: 50px;
+    height: 50px;
+  }
+}

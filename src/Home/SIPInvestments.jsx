@@ -1,9 +1,10 @@
 import React from 'react'
+import CommingPage from '../Componants/compo/CommingPage'
 
 const SIPInvestments = () => {
   return (
     <div>
-      <h2>SIPInvestments</h2>
+      <CommingPage/>
     </div>
   )
 }

@@ -14,6 +14,7 @@ import EmiScreen from './Componants/EMI/EmiScreen';
 import SIPInvestments from './Home/SIPInvestments';
 import DocumentsBills from './Home/DocumentsBills';
 import DailyExpenses from './Home/DailyExpenses';
+import CommingPage from './Componants/compo/CommingPage';
 
 const App = () => {
   return (
@@ -34,6 +35,7 @@ const App = () => {
           <Route path="/SIPInvestments" element={<SIPInvestments/>}/>
           <Route path='/DocumentsBills' element={<DocumentsBills/>}/>
           <Route path='/dailyExpenses' element={<DailyExpenses/>}/>
+          <Route path='/commingSoon' element={<CommingPage/>}/>
         </Routes>
       </BrowserRouter>
     </>
