@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../../Styles/EmiregiStyle/Emi.css"
+import Header from "../Layout/Header";
 const Emi = () => {
   const navigate = useNavigate();
   const [totalOutstanding, setTotalOutstanding] = useState(0);
@@ -37,6 +38,8 @@ const Emi = () => {
 
   return (
     <div style={{ textAlign: "center", marginTop: "50px" }}>
+      <Header/>
+      
       <h2>EMI Dashboard</h2>
       <div style={{ marginTop:"30px"}}>
         <button

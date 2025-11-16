@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "../../Styles/EmiregiStyle/EmiDashboard.css";
 import { useNavigate } from "react-router-dom";
-
+import Header from "../Layout/Header"
 const EmiDashBoard = () => {
   const [emis, setEmi] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -38,6 +38,7 @@ const navigate = useNavigate();
 
   return (
     <div className="emi-dashboard">
+      <Header/>
       <h2 className="dashboard-title">📊 EMI Dashboard</h2>
 
       {/* Search bar */}
