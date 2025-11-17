@@ -1,52 +1,133 @@
-import React, { useEffect, useState } from 'react'
-import img2 from "../../Assets/images.jpeg"
-import img3 from "../../Assets/loan-management-software.jpg"
-import img4 from "../../Assets/lon_mangmntprcs.jpg"
-import img5 from "../../Assets/thumbnail-banner-100-1.png"
-import '../../Styles/CommonStyle/Carosel.css'
+import React, { useState, useEffect, useRef } from "react";
+import img2 from "../../Assets/images.jpeg";
+import img3 from "../../Assets/loan-management-software.jpg";
+import img4 from "../../Assets/lon_mangmntprcs.jpg";
+import img5 from "../../Assets/thumbnail-banner-100-1.png";
+import img6 from "../../Assets/loan1.jpeg";
+import img7 from "../../Assets/travelgirk.jpeg";
+import img8 from "../../Assets/icici.jpeg";
+import "../../Styles/CommonStyle/Carosel.css";
 
-const images = [ img2, img3, img4, img5];
+const images = [img2, img3, img4, img5, img6, img7, img8];
 
 const Carosel = () => {
-    const [currentIndex, setCurrentIndex] = useState(0);
-    // Auto-slide every 3 seconds
-    useEffect(() => {
-        const slider = setInterval(() => {
-            setCurrentIndex((prev) => (prev + 1) % images.length);
-        }, 3000);
-        return () => clearInterval(slider);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const intervalRef = useRef(null);
+  const sliderRef = useRef(null);
 
-    }, []);
-    const goToPrev = () => {
-        setCurrentIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
+  // Auto-slide every 3s
+  useEffect(() => {
+    startAutoSlide();
+    return () => stopAutoSlide();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const startAutoSlide = () => {
+    stopAutoSlide();
+    intervalRef.current = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % images.length);
+    }, 3000);
+  };
+
+  const stopAutoSlide = () => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
+    }
+  };
+
+  const goToPrev = () => {
+    stopAutoSlide();
+    setCurrentIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
+    startAutoSlide();
+  };
+
+  const goToNext = () => {
+    stopAutoSlide();
+    setCurrentIndex((prev) => (prev + 1) % images.length);
+    startAutoSlide();
+  };
+
+  // touch support for mobile swipe
+  useEffect(() => {
+    const slider = sliderRef.current;
+    if (!slider) return;
+
+    let startX = 0;
+    let deltaX = 0;
+    const onTouchStart = (e) => {
+      stopAutoSlide();
+      startX = e.touches[0].clientX;
+    };
+    const onTouchMove = (e) => {
+      deltaX = e.touches[0].clientX - startX;
+    };
+    const onTouchEnd = () => {
+      if (Math.abs(deltaX) > 50) {
+        if (deltaX > 0) goToPrev();
+        else goToNext();
+      }
+      deltaX = 0;
+      startAutoSlide();
     };
 
-    const goToNext = () => {
-        setCurrentIndex((prev) => (prev + 1) % images.length);
+    slider.addEventListener("touchstart", onTouchStart, { passive: true });
+    slider.addEventListener("touchmove", onTouchMove, { passive: true });
+    slider.addEventListener("touchend", onTouchEnd);
+
+    return () => {
+      slider.removeEventListener("touchstart", onTouchStart);
+      slider.removeEventListener("touchmove", onTouchMove);
+      slider.removeEventListener("touchend", onTouchEnd);
     };
-    return (
-        <div className="carousel-container">
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-      {/* IMAGE */}
-      <img src={images[currentIndex]} alt="carousel-img" className="carousel-image" />
+  return (
+    <div className="carousel-outer">
+      <div
+        className="carousel-container"
+        ref={sliderRef}
+        onMouseEnter={stopAutoSlide}
+        onMouseLeave={startAutoSlide}
+      >
+        <div
+          className="carousel-slides"
+          style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+        >
+          {images.map((src, idx) => (
+            <div className="carousel-slide" key={idx}>
+              <img src={src} alt={`slide-${idx}`} className="carousel-image" />
+            </div>
+          ))}
+        </div>
 
-      {/* ARROWS */}
-      <button className="carousel-btn left" onClick={goToPrev}>❮</button>
-      <button className="carousel-btn right" onClick={goToNext}>❯</button>
+        {/* arrows */}
+        <button className="carousel-btn left" onClick={goToPrev} aria-label="Previous">
+          ❮
+        </button>
+        <button className="carousel-btn right" onClick={goToNext} aria-label="Next">
+          ❯
+        </button>
 
-      {/* DOTS */}
-      <div className="carousel-dots">
-        {images.map((_, index) => (
-          <span
-            key={index}
-            onClick={() => setCurrentIndex(index)}
-            className={`dot ${index === currentIndex ? "active" : ""}`}
-          ></span>
-        ))}
+        {/* dots */}
+        <div className="carousel-dots">
+          {images.map((_, idx) => (
+            <button
+              key={idx}
+              className={`dot ${idx === currentIndex ? "active" : ""}`}
+              onClick={() => {
+                stopAutoSlide();
+                setCurrentIndex(idx);
+                startAutoSlide();
+              }}
+              aria-label={`Go to slide ${idx + 1}`}
+            />
+          ))}
+        </div>
       </div>
-
     </div>
-    )
-}
+  );
+};
 
 export default Carosel;

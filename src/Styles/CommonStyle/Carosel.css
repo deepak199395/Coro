@@ -1,113 +1,145 @@
-/* ================================
-   CAROUSEL MAIN CONTAINER
-================================ */
-.carousel-container {
+/* outer wrapper to center and control width */
+.carousel-outer {
   width: 100%;
-  max-width: 900px;
-  height: 320px;
-  margin: 20px auto;
-  position: relative;
-  overflow: hidden;
-  border-radius: 15px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  display: flex;
+  justify-content: center;
+  padding: 18px 12px;
+  box-sizing: border-box;
 }
 
-/* ================================
-   RESPONSIVE IMAGE
-================================ */
+/* main visible container */
+.carousel-container {
+  width: 100%;
+  max-width: 1100px;
+  height: 360px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(16, 24, 40, 0.2);
+  background: linear-gradient(180deg, #0f1724 0%, #071026 100%);
+}
+
+/* slides row - each slide is 100% width */
+.carousel-slides {
+  height: 100%;
+  display: flex;
+  transition: transform 0.6s cubic-bezier(.22,.9,.34,1);
+  will-change: transform;
+}
+
+/* each slide occupies full visible area */
+.carousel-slide {
+  min-width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  padding: 12px;
+}
+
+/* image fits slide without overflow and keeps aspect ratio */
 .carousel-image {
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  animation: fadeIn 0.6s ease-in-out;
+  object-fit: cover; /* keeps image cover no stretching */
+  border-radius: 8px;
+  display: block;
+  user-select: none;
+  pointer-events: none;
 }
 
-/* ================================
-   ARROW BUTTONS
-================================ */
+/* arrow buttons */
 .carousel-btn {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background: rgba(0,0,0,0.45);
-  border: none;
-  color: white;
-  font-size: 28px;
-  padding: 10px;
-  cursor: pointer;
+  z-index: 30;
+  background: rgba(2,6,23,0.55);
+  border: 1px solid rgba(255,255,255,0.06);
+  color: #fff;
+  font-size: 26px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
-  z-index: 5;
-  transition: 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  backdrop-filter: blur(6px);
+  transition: all 0.18s ease;
+  box-shadow: 0 6px 18px rgba(2,6,23,0.6);
 }
 
 .carousel-btn:hover {
-  background: rgba(0,0,0,0.65);
+  transform: translateY(-50%) scale(1.05);
+  background: rgba(2,6,23,0.75);
 }
 
 .carousel-btn.left {
-  left: 15px;
+  left: 14px;
 }
 
 .carousel-btn.right {
-  right: 15px;
+  right: 14px;
 }
 
-/* ================================
-   DOTS INDICATORS
-================================ */
+/* dots */
 .carousel-dots {
   position: absolute;
   bottom: 12px;
-  width: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 40;
   display: flex;
-  justify-content: center;
+  gap: 8px;
 }
 
 .dot {
-  width: 12px;
-  height: 12px;
-  background: #fff;
-  opacity: 0.5;
-  margin: 0 4px;
+  width: 11px;
+  height: 11px;
   border-radius: 50%;
+  border: none;
+  background: rgba(255,255,255,0.38);
   cursor: pointer;
-  transition: 0.3s;
+  transition: all 0.2s;
 }
 
 .dot.active {
-  opacity: 1;
-  background: #4a90e2;
+  background: linear-gradient(90deg, #06b6d4, #7c3aed);
+  box-shadow: 0 6px 18px rgba(124, 58, 237, 0.24);
+  transform: scale(1.15);
 }
 
-/* ================================
-   ANIMATION
-================================ */
-@keyframes fadeIn {
-  from { opacity: 0; transform: scale(1.02); }
-  to   { opacity: 1; transform: scale(1); }
+/* responsive tweaks */
+@media (max-width: 1024px) {
+  .carousel-container {
+    height: 300px;
+  }
 }
 
-/* ================================
-   RESPONSIVE STYLING
-================================ */
 @media (max-width: 768px) {
   .carousel-container {
-    height: 230px;
+    height: 220px;
   }
-
   .carousel-btn {
-    font-size: 22px;
-    padding: 7px;
+    width: 38px;
+    height: 38px;
+    font-size: 20px;
   }
 }
 
 @media (max-width: 480px) {
   .carousel-container {
-    height: 180px;
+    height: 160px;
   }
-
   .dot {
-    width: 10px;
-    height: 10px;
+    width: 9px;
+    height: 9px;
+  }
+  .carousel-btn {
+    width: 34px;
+    height: 34px;
+    font-size: 18px;
   }
 }
