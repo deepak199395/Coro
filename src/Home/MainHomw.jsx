@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import '../Styles/Home/Mainhome.css';
 import { FaMoneyCheckAlt, FaWallet, FaChartLine, FaFileInvoice } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
@@ -6,13 +6,40 @@ import Carosel from "../Componants/Common/Carosel.jsx";
 
 const MainHome = () => {
   const navigate = useNavigate();
+  const [showCoachmark, setShowCoachmark] = useState(true);
 
   const handleNavigation = (path) => {
     navigate(path);
   };
 
+  // Auto-close after 5 seconds
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowCoachmark(false);
+    }, 5000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <>
+      {/* Coachmark Modal */}
+      {showCoachmark && (
+        <div className="coachmark-overlay">
+          <div className="coachmark-box">
+            <h3>Note 📌</h3>
+            <p>
+              The EMI details shown inside this application are <b>dummy data</b>
+              used only for <b>testing purposes</b>.
+            </p>
+
+            <button className="coachmark-btn" onClick={() => setShowCoachmark(false)}>
+              I Understand
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* Carousel Section */}
       <Carosel />
 
