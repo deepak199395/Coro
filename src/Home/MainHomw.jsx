@@ -16,7 +16,7 @@ const MainHome = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowCoachmark(false);
-    }, 5000);
+    }, 15000);
 
     return () => clearTimeout(timer);
   }, []);
