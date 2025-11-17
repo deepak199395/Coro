@@ -1,76 +1,105 @@
-/* ================================
-   MAIN HOME CONTAINER
-================================ */
+/* ===========================================
+   CRED-STYLE THEME (Dark, Premium, Elegant)
+=========================================== */
+body {
+  background: #0d0f12; /* deep black/blue */
+  font-family: 'Poppins', sans-serif;
+}
+
+/* ===========================================
+   HOME CONTAINER
+=========================================== */
 .home-container {
   max-width: 1100px;
-  margin: 30px auto 50px auto;
+  margin: 20px auto 50px auto;
   padding: 10px;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 22px;
-  justify-items: center;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 25px;
+  animation: fadeIn 0.5s ease-out;
 }
 
-/* ================================
-   CARD DESIGN
-================================ */
+/* ===========================================
+   PREMIUM CARD STYLE (CRED-like)
+=========================================== */
 .home-card {
-  background: #ffffff;
-  border-radius: 15px;
-  padding: 25px 20px;
-  width: 100%;
-  max-width: 260px;
+  background: rgba(255, 255, 255, 0.06);
+  padding: 28px 25px;
+  border-radius: 18px;
   text-align: center;
-  border: 1px solid #e5e9f0;
-  box-shadow: 0px 4px 12px rgba(0,0,0,0.08);
   cursor: pointer;
-  transition: 0.3s ease;
+
+  /* Glass morphism effect */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  box-shadow: 0px 10px 25px rgba(0,0,0,0.4);
+
+  transition: 0.35s ease;
 }
 
+/* Hover Premium Shine */
 .home-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0px 6px 16px rgba(0,0,0,0.15);
-  border-color: #4a90e2;
+  transform: translateY(-8px) scale(1.03);
+  box-shadow: 0px 15px 35px rgba(0,0,0,0.55);
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255,255,255,0.25);
 }
 
-/* ================================
-   CARD ICON
-================================ */
+/* ===========================================
+   ICON STYLE (Neon Glow)
+=========================================== */
 .home-card-icon {
-  font-size: 45px;
-  color: #4a90e2;
+  font-size: 50px;
+  color: #00eaff;          /* neon cyan glow */
   margin-bottom: 12px;
+
+  filter: drop-shadow(0px 0px 6px rgba(0, 238, 255, 0.6));
 }
 
-/* ================================
+/* ===========================================
    CARD TITLE
-================================ */
+=========================================== */
 .home-card h3 {
-  font-size: 20px;
+  font-size: 22px;
   font-weight: 600;
-  color: #333;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
+  color: #ffffff;
+  letter-spacing: 0.5px;
 }
 
-/* ================================
-   CARD DESCRIPTION
-================================ */
+/* ===========================================
+   CARD TEXT
+=========================================== */
 .home-card p {
   font-size: 14px;
-  color: #555;
+  color: #cfd6e1;
   line-height: 1.4;
 }
 
-/* ================================
+/* ===========================================
+   ANIMATIONS
+=========================================== */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ===========================================
    RESPONSIVE DESIGN
-================================ */
+=========================================== */
 @media (max-width: 480px) {
+  .home-container {
+    padding: 10px;
+    gap: 18px;
+  }
+
   .home-card {
-    padding: 20px;
-    max-width: 90%;
+    padding: 22px;
   }
 
   .home-card-icon {
-    font-size: 38px;
+    font-size: 42px;
   }
 }
