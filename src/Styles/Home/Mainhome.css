@@ -1,105 +1,69 @@
-/* ===========================================
-   CRED-STYLE THEME (Dark, Premium, Elegant)
-=========================================== */
+/* Background Gradient (same as About & Contact theme) */
 body {
-  background: #0d0f12; /* deep black/blue */
-  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #e0f7fa, #c8e6c9);
+  margin: 0;
+  padding: 0;
+  font-family: "Poppins", sans-serif;
 }
 
-/* ===========================================
-   HOME CONTAINER
-=========================================== */
+/* Home Container */
 .home-container {
-  max-width: 1100px;
-  margin: 20px auto 50px auto;
-  padding: 10px;
+  padding: 40px 20px;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 25px;
-  animation: fadeIn 0.5s ease-out;
+  max-width: 1200px;
+  margin: auto;
 }
 
-/* ===========================================
-   PREMIUM CARD STYLE (CRED-like)
-=========================================== */
+/* Card Style (same glass style as Contact page) */
 .home-card {
-  background: rgba(255, 255, 255, 0.06);
-  padding: 28px 25px;
-  border-radius: 18px;
+  background: #ffffff;
+  padding: 25px;
+  border-radius: 20px;
   text-align: center;
+  box-shadow: 0px 8px 25px rgba(0, 0, 0, 0.10);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
   cursor: pointer;
-
-  /* Glass morphism effect */
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-
-  border: 1px solid rgba(255, 255, 255, 0.09);
-  box-shadow: 0px 10px 25px rgba(0,0,0,0.4);
-
-  transition: 0.35s ease;
 }
 
-/* Hover Premium Shine */
 .home-card:hover {
-  transform: translateY(-8px) scale(1.03);
-  box-shadow: 0px 15px 35px rgba(0,0,0,0.55);
-  background: rgba(255, 255, 255, 0.12);
-  border-color: rgba(255,255,255,0.25);
+  transform: translateY(-6px);
+  box-shadow: 0px 12px 28px rgba(0, 0, 0, 0.15);
 }
 
-/* ===========================================
-   ICON STYLE (Neon Glow)
-=========================================== */
+/* Icons */
 .home-card-icon {
-  font-size: 50px;
-  color: #00eaff;          /* neon cyan glow */
-  margin-bottom: 12px;
-
-  filter: drop-shadow(0px 0px 6px rgba(0, 238, 255, 0.6));
+  font-size: 40px;
+  color: #128c7e; /* same theme color used in About & Contact */
+  margin-bottom: 15px;
 }
 
-/* ===========================================
-   CARD TITLE
-=========================================== */
+/* Card Title */
 .home-card h3 {
-  font-size: 22px;
-  font-weight: 600;
   margin-bottom: 10px;
-  color: #ffffff;
-  letter-spacing: 0.5px;
+  font-size: 20px;
+  color: #075e54;
 }
 
-/* ===========================================
-   CARD TEXT
-=========================================== */
+/* Card Description */
 .home-card p {
-  font-size: 14px;
-  color: #cfd6e1;
-  line-height: 1.4;
+  font-size: 15px;
+  color: #444;
+  line-height: 1.5;
 }
 
-/* ===========================================
-   ANIMATIONS
-=========================================== */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-/* ===========================================
-   RESPONSIVE DESIGN
-=========================================== */
-@media (max-width: 480px) {
+/* Responsive */
+@media (max-width: 600px) {
   .home-container {
-    padding: 10px;
-    gap: 18px;
+    padding: 20px;
   }
 
   .home-card {
-    padding: 22px;
+    padding: 20px;
   }
 
-  .home-card-icon {
-    font-size: 42px;
+  .home-card h3 {
+    font-size: 18px;
   }
 }

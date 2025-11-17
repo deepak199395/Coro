@@ -40,7 +40,7 @@ const Emi = () => {
     <div style={{ textAlign: "center", marginTop: "50px" }}>
       <Header/>
       
-      <h2>EMI Dashboard</h2>
+      <h2 style={{color:"white"}}>EMI Dashboard</h2>
       <div style={{ marginTop:"30px"}}>
         <button
           onClick={handleCreateEmi}
@@ -67,7 +67,7 @@ const Emi = () => {
       </div>
       {/* 👉 TOTAL OUTSTANDING AMOUNT */}
       <div>
-        <h3>Total Remaining Amount :-</h3>
+        <h3 style={{color:"white"}}>Total Remaining Amount :-</h3>
         <h1 style={{ color: "red" }}>₹ {totalOutstanding.toLocaleString()}</h1>
       </div>
      {/* EMI CARDS LIST */}

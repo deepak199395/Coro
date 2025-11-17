@@ -15,6 +15,9 @@ import SIPInvestments from './Home/SIPInvestments';
 import DocumentsBills from './Home/DocumentsBills';
 import DailyExpenses from './Home/DailyExpenses';
 import CommingPage from './Componants/compo/CommingPage';
+import About from './Componants/Layout/About';
+import Contact from './Componants/Layout/Contact';
+import Services from './Componants/Layout/Services';
 
 const App = () => {
   return (
@@ -26,6 +29,9 @@ const App = () => {
           <Route path='/footer' element={<Footer />} />
           <Route path='/login' element={<Login/>}/>
           <Route path='/register' element={<Register/>}/>
+          <Route path='/about' element={<About/>}/>
+          <Route path='/contact' element={<Contact/>}/>
+          <Route path='/Services' element={<Services/>}/>
           <Route path='/emiregi' element={<Emiregii/>}/>
           <Route path='/emidashboard' element={<EmiDashBoard/>}/>
           <Route path='/emi' element={<Emi/>}/>
