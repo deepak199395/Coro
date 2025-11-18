@@ -2,8 +2,13 @@ import React from 'react'
 import Header from '../Componants/Layout/Header'
 import Footer from '../Componants/Layout/Footer'
 import "../Styles/DailyExpenses/DailyExpensesStyle.css"
+import { useNavigate } from 'react-router-dom';
 
 const DailyExpenses = () => {
+  const navigate= useNavigate()
+  const handlehancheAddexpensees=()=>{
+    navigate("/chatbotDailyExpess")
+  }
   return (
     <div className="page-wrapper">
       <Header/>
@@ -18,7 +23,7 @@ const DailyExpenses = () => {
             <h2>📄 View Daily Expenses</h2>
           </div>
 
-          <div className="expense-section card-click">
+          <div className="expense-section card-click" onClick={handlehancheAddexpensees}>
             <h2>➕ Add Daily Expenses</h2>
           </div>
 

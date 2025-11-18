@@ -18,6 +18,7 @@ import CommingPage from './Componants/compo/CommingPage';
 import About from './Componants/Layout/About';
 import Contact from './Componants/Layout/Contact';
 import Services from './Componants/Layout/Services';
+import ChatbotDailyExpess from './Componants/DailyExpensess/ChatbotDailyExpess';
 
 const App = () => {
   return (
@@ -42,6 +43,7 @@ const App = () => {
           <Route path='/DocumentsBills' element={<DocumentsBills/>}/>
           <Route path='/dailyExpenses' element={<DailyExpenses/>}/>
           <Route path='/commingSoon' element={<CommingPage/>}/>
+          <Route path='/chatbotDailyExpess' element={<ChatbotDailyExpess/>}/>
         </Routes>
       </BrowserRouter>
     </>
