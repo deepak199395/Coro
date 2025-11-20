@@ -19,7 +19,7 @@ import About from './Componants/Layout/About';
 import Contact from './Componants/Layout/Contact';
 import Services from './Componants/Layout/Services';
 import ChatbotDailyExpess from './Componants/DailyExpensess/ChatbotDailyExpess';
-
+import DailyExpensesDashboard from './Componants/DailyExpensess/DailyExpensesDashboard'
 const App = () => {
   return (
     <>
@@ -44,6 +44,7 @@ const App = () => {
           <Route path='/dailyExpenses' element={<DailyExpenses/>}/>
           <Route path='/commingSoon' element={<CommingPage/>}/>
           <Route path='/chatbotDailyExpess' element={<ChatbotDailyExpess/>}/>
+          <Route path='/dailyExpensesDashboard' element={<DailyExpensesDashboard/>}/>
         </Routes>
       </BrowserRouter>
     </>

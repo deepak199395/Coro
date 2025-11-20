@@ -7,8 +7,6 @@ import { useNavigate } from 'react-router-dom';
 const DailyExpenses = () => {
 const navigate = useNavigate();
   
-
- 
 const handleNavigation = (path) => {
     navigate(path);
   };
@@ -24,7 +22,7 @@ const handleNavigation = (path) => {
 
         <div className="expense-grid">
 
-          <div className="expense-section card-click" >
+          <div className="expense-section card-click"  onClick={() => handleNavigation('/dailyExpensesDashboard')}>
             <h2>📄 View Daily Expenses</h2>
             <p>See all your expense records</p>
           </div>

@@ -1,0 +1,97 @@
+.dashboard-wrapper {
+  padding: 30px;
+  background: linear-gradient(135deg, #e0f7fa, #c8e6c9);
+  min-height: 100vh;
+  font-family: "Poppins", sans-serif;
+}
+
+.dashboard-title {
+  text-align: center;
+  font-size: 32px;
+  color: #075e54;
+  margin-bottom: 20px;
+}
+
+.summary-cards {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.card {
+  background: #fff;
+  padding: 20px;
+  border-radius: 15px;
+  width: 220px;
+  text-align: center;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+}
+
+.card p {
+  font-size: 22px;
+  color: #128c7e;
+  margin-top: 10px;
+}
+
+.filters {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin: 25px 0;
+}
+
+.filters input {
+  padding: 10px 15px;
+  border-radius: 10px;
+  border: 2px solid #075e54;
+}
+
+.pdf-btn {
+  background: #128c7e;
+  padding: 10px 20px;
+  border-radius: 10px;
+  color: white;
+  border: none;
+  margin: auto;
+  display: block;
+  margin-bottom: 20px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.charts-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  justify-content: center;
+}
+
+.chart-box {
+  background: #ffffff;
+  padding: 20px;
+  width: 450px;
+  border-radius: 15px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.13);
+  text-align: center;
+}
+
+.list-title {
+  margin-top: 30px;
+  text-align: center;
+  color: #075e54;
+}
+
+.expense-list {
+  margin-top: 15px;
+}
+
+.expense-item {
+  background: #ffffff;
+  padding: 15px;
+  margin-bottom: 12px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  box-shadow: 0 5px 12px rgba(0,0,0,0.08);
+}
