@@ -5,14 +5,12 @@ import "../Styles/DailyExpenses/DailyExpensesStyle.css";
 import { useNavigate } from 'react-router-dom';
 
 const DailyExpenses = () => {
-  const navigate = useNavigate();
+const navigate = useNavigate();
+  
 
-  const handleAddExpenses = () => {
-    navigate("/chatbotDailyExpess");
-  };
-
-  const handleViewExpenses = () => {
-    navigate("/dailyExpensesDashboard");
+ 
+const handleNavigation = (path) => {
+    navigate(path);
   };
 
   return (
@@ -26,12 +24,12 @@ const DailyExpenses = () => {
 
         <div className="expense-grid">
 
-          <div className="expense-section card-click" onClick={handleViewExpenses}>
+          <div className="expense-section card-click" >
             <h2>📄 View Daily Expenses</h2>
             <p>See all your expense records</p>
           </div>
 
-          <div className="expense-section card-click" onClick={handleAddExpenses}>
+          <div className="expense-section card-click" onClick={() => handleNavigation('/chatbotDailyExpess')}>
             <h2>➕ Add Daily Expense</h2>
             <p>Record a new expense using chatbot</p>
           </div>
