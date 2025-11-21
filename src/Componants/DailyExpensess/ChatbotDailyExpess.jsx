@@ -5,6 +5,12 @@ import { useNavigate } from "react-router-dom";
 import "../../Styles/EmiregiStyle/EmiStyle.css";
 import DatePickerInput from "../Common/DatePickerInput";
 
+const fields = [
+    { key: "expenses", question: "How much did you spend today?" },
+    { key: "reasonOfExpenses", question: "What did you spend it on?" },
+    { key: "dateOfExpenses", question: "Select the date of expense." },
+];
+
 const ChatbotDailyExpess = () => {
     const [step, setStep] = useState(0);
     const [messages, setMessages] = useState([]);
@@ -14,56 +20,56 @@ const ChatbotDailyExpess = () => {
     const chatEndRef = useRef(null);
     const navigate = useNavigate();
 
-    const fields = [
-        { key: "expenses", question: "How much did you spend today?" },
-        { key: "reasonOfExpenses", question: "What did you spend it on?" },
-        { key: "dateOfExpenses", question: "Select the date of expense." },
-    ];
-
     // Auto-scroll
     useEffect(() => {
         chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
     }, [messages]);
 
-    // Start Chat
+    // Start Chat (NO WARNING NOW)
     useEffect(() => {
         setMessages([
             { sender: "bot", text: "👋 Hello! Let's record your daily expense." },
             { sender: "bot", text: fields[0].question },
         ]);
-    }, []);
+    }, []); // SAFE: fields is outside component
 
     const handleSend = async (e) => {
         e.preventDefault();
-        if (!userInput.trim() && step !== 2) return; // allow empty check only for text fields
+        if (!userInput.trim() && step !== 2) return;
 
         const currentField = fields[step];
 
-        // Add user message
-        setMessages((prev) => [...prev, { sender: "user", text: userInput || formData.dateOfExpenses }]);
+        setMessages((prev) => [
+            ...prev,
+            { sender: "user", text: userInput || formData.dateOfExpenses },
+        ]);
 
-        // Save input
-        let valueToSave = step === 2 ? formData.dateOfExpenses : userInput;
+        const valueToSave = step === 2 ? formData.dateOfExpenses : userInput;
         setFormData((prev) => ({ ...prev, [currentField.key]: valueToSave }));
 
         const newStep = step + 1;
         setUserInput("");
 
-        // If more questions remain
         if (newStep < fields.length) {
             setStep(newStep);
             setIsTyping(true);
 
             setTimeout(() => {
                 setIsTyping(false);
-                setMessages((prev) => [...prev, { sender: "bot", text: fields[newStep].question }]);
+                setMessages((prev) => [
+                    ...prev,
+                    { sender: "bot", text: fields[newStep].question },
+                ]);
             }, 1000);
 
             return;
         }
 
-        // Final Step — Submit to Backend
-        setMessages((prev) => [...prev, { sender: "bot", text: "⏳ Saving your expense..." }]);
+        // Submit to backend
+        setMessages((prev) => [
+            ...prev,
+            { sender: "bot", text: "⏳ Saving your expense..." },
+        ]);
 
         try {
             const res = await fetch(
@@ -103,7 +109,6 @@ const ChatbotDailyExpess = () => {
     return (
         <div className="chat-container">
 
-            {/* Header */}
             <div className="chat-header">
                 <img src={botAvatar} alt="Bot" className="bot-avatar" />
                 <div>
@@ -112,7 +117,6 @@ const ChatbotDailyExpess = () => {
                 </div>
             </div>
 
-            {/* Chat Box */}
             <div className="chat-box">
                 {messages.map((msg, i) => (
                     <div key={i} className={`message ${msg.sender}`}>
@@ -123,7 +127,6 @@ const ChatbotDailyExpess = () => {
                     </div>
                 ))}
 
-                {/* Typing animation */}
                 {isTyping && (
                     <div className="message bot typing">
                         <img src={botAvatar} alt="bot" className="bot-icon" />
@@ -138,10 +141,7 @@ const ChatbotDailyExpess = () => {
                 <div ref={chatEndRef} />
             </div>
 
-            {/* Input Area */}
             <form className="input-area" onSubmit={handleSend}>
-                
-                {/* TEXT INPUT for first 2 questions */}
                 {step !== 2 && (
                     <input
                         type="text"
@@ -151,12 +151,12 @@ const ChatbotDailyExpess = () => {
                     />
                 )}
 
-                {/* DATE PICKER for last question */}
                 {step === 2 && (
                     <DatePickerInput
-                        label=""
                         value={formData.dateOfExpenses || ""}
-                        onChange={(val) => setFormData({ ...formData, dateOfExpenses: val })}
+                        onChange={(val) =>
+                            setFormData({ ...formData, dateOfExpenses: val })
+                        }
                     />
                 )}
 

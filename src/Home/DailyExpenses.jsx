@@ -27,7 +27,7 @@ const handleNavigation = (path) => {
             <p>See all your expense records</p>
           </div>
 
-          <div className="expense-section card-click" onClick={() => handleNavigation('/commingSoon')}>
+          <div className="expense-section card-click" onClick={() => handleNavigation('/chatbotDailyExpess')}>
             <h2>➕ Add Daily Expense</h2>
             <p>Record a new expense using chatbot</p>
           </div>
