@@ -10,7 +10,7 @@ const fields = [
     { key: "reasonOfExpenses", question: "What did you spend it on?" },
     { key: "dateOfExpenses", question: "Select the date of expense." },
 ];
-const reasonOptions=["Grocery", "Tea", "Lunch / Dinner", "Rent"]
+const reasonOptions=["Grocery","Tea / BreakFast","Lunch / Dinner","Rent","Drink","EMIs","Petrol","Others"]
 
 const ChatbotDailyExpess = () => {
     const [step, setStep] = useState(0);
