@@ -4,6 +4,8 @@ import { Bar, Pie } from "react-chartjs-2";
 import { Chart as ChartJS, BarElement, ArcElement, CategoryScale, LinearScale, Tooltip, Legend } from "chart.js";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
+import { MdDelete } from "react-icons/md";
+import { MdEdit } from "react-icons/md";
 
 ChartJS.register(BarElement, ArcElement, CategoryScale, LinearScale, Tooltip, Legend);
 
@@ -13,7 +15,52 @@ const DailyExpensesDashboard = () => {
   const [search, setSearch] = useState("");
   const [monthFilter, setMonthFilter] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("");
+  const [editModal, setEditModal] = useState(false);
+  const [editData, setEditData] = useState({
+    id: "",
+    expenses: "",
+    reasonOfExpenses: "",
+    dateOfExpenses: ""
+  })
+  const handleUpdate = async () => {
+    try {
+      const res = await fetch(
+        `https://shop999backend.vercel.app/back-end/rest-API/Secure/api/v1/update-daily-apenses/daily-exp-privete-api/api46/${editData.id}`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            expenses: editData.expenses,
+            reasonOfExpenses: editData.reasonOfExpenses,
+            dateOfExpenses: editData.dateOfExpenses
+          })
+        }
+      );
+      const data = await res.json();
+      if (data.success === true) {
+        alert(data.message);
+        // Update UI instantly
+        setExpenses((prev) =>
+          prev.map((item) =>
+            item._id === editData.id ? data.data : item
+          )
+        );
+        setFiltered((prev) =>
+          prev.map((item) =>
+            item._id === editData.id ? data.data : item
+          )
+        );
+        setEditModal(false);
 
+      } else {
+        alert(data.message);
+
+      }
+    } catch (error) {
+      console.log("Update error:", error);
+      alert("Server error while updating.");
+    }
+  }
   useEffect(() => {
     fetch(
       "https://shop999backend.vercel.app/back-end/rest-API/Secure/api/v1/expess-deatils/fox-getExpensse/api44"
@@ -24,6 +71,36 @@ const DailyExpensesDashboard = () => {
         setFiltered(data.getexpess);
       });
   }, []);
+
+  const handleDelete = async (id) => {
+    try {
+      const res = await fetch(
+        `https://shop999backend.vercel.app/back-end/rest-API/Secure/api/v1/delete-daily-expense/daily-exp-privete-api/api47/${id}`,
+        {
+          method: "POST",
+        }
+      );
+
+      const data = await res.json();
+
+      if (data.success === true) {
+        alert(data.message || "Expense deleted successfully!");
+
+        const deletedId = data.data?._id;
+
+        if (deletedId) {
+          // Update UI
+          setFiltered((prev) => prev.filter((item) => item._id !== deletedId));
+          setExpenses((prev) => prev.filter((item) => item._id !== deletedId));
+        }
+      } else {
+        alert(data.message || "Failed to delete expense.");
+      }
+    } catch (error) {
+      console.error("Delete error:", error);
+      alert("Server error while deleting.");
+    }
+  };
 
   // 🔍 Search + Filter Logic
   useEffect(() => {
@@ -170,9 +247,73 @@ const DailyExpensesDashboard = () => {
             <p><strong>{e.reasonOfExpenses}</strong></p>
             <p>₹{e.expenses}</p>
             <p>{e.dateOfExpenses}</p>
+            {/* 🗑️ DELETE BUTTON */}
+            <MdDelete
+              className="delete-icon"
+              onClick={() => handleDelete(e._id)}
+              style={{
+                color: "red",
+                fontSize: "24px",
+                cursor: "pointer"
+              }}
+
+            />
+            <MdEdit
+              className="edit-icon"
+              onClick={() =>
+                setEditData({
+                  id: e._id,
+                  expenses: e.expenses,
+                  reasonOfExpenses: e.reasonOfExpenses,
+                  dateOfExpenses: e.dateOfExpenses,
+                }) || setEditModal(true)
+              }
+              style={{ color: "blue", fontSize: 24, cursor: "pointer", marginRight: 10 }}
+            />
+
           </div>
+
         ))}
       </div>
+      {editModal && (
+  <div className="modal-overlay">
+    <div className="modal-box">
+      <h3>Edit Expense</h3>
+
+      <input
+        type="number"
+        placeholder="Amount"
+        value={editData.expenses}
+        onChange={(e) =>
+          setEditData({ ...editData, expenses: e.target.value })
+        }
+      />
+
+      <input
+        type="text"
+        placeholder="Reason"
+        value={editData.reasonOfExpenses}
+        onChange={(e) =>
+          setEditData({ ...editData, reasonOfExpenses: e.target.value })
+        }
+      />
+
+      <input
+        type="date"
+        value={editData.dateOfExpenses}
+        onChange={(e) =>
+          setEditData({ ...editData, dateOfExpenses: e.target.value })
+        }
+      />
+
+      <div className="modal-actions">
+        <button onClick={handleUpdate} className="save-btn">Update</button>
+        <button onClick={() => setEditModal(false)} className="cancel-btn">Cancel</button>
+      </div>
+    </div>
+  </div>
+)}
+
     </div>
   );
 };
