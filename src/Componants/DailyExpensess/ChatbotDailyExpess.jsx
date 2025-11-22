@@ -5,12 +5,15 @@ import { useNavigate } from "react-router-dom";
 import "../../Styles/EmiregiStyle/EmiStyle.css";
 import DatePickerInput from "../Common/DatePickerInput";
 import NormalTextInput from "../Common/NormalTextInput"
+
+
 const fields = [
     { key: "expenses", question: "How much did you spend today?" },
     { key: "reasonOfExpenses", question: "What did you spend it on?" },
     { key: "dateOfExpenses", question: "Select the date of expense." },
 ];
-const reasonOptions=["Grocery","Tea / BreakFast","Lunch / Dinner","Rent","Drink","EMIs","Petrol","Others"]
+const reasonOptions=["Grocery 🛒","Tea / BreakFast☕","Lunch / Dinner🍽","Rent🏠","Drink","EMIs","Petrol🏠","Others"]
+
 
 const ChatbotDailyExpess = () => {
     const [step, setStep] = useState(0);
@@ -28,13 +31,37 @@ const ChatbotDailyExpess = () => {
 
     // Start Chat (NO WARNING NOW)
     useEffect(() => {
+        const intro = "Hello! Let's record your daily expense.";
+        const firstQ = fields[0].question;
         setMessages([
             { sender: "bot", text: "👋 Hello! Let's record your daily expense." },
             { sender: "bot", text: fields[0].question },
         ]);
+        speak(intro, "female");
+        setTimeout(() => speak(firstQ, "female"), 1000);
     }, []); // SAFE: fields is outside component
 
-    const handleSend = async (e) => {
+     // 🗣️ TEXT TO SPEECH (TTS)
+     const speak = (text,gender="female")=>{
+        if(!window.speechSynthesis)return;
+        const msg= new SpeechSynthesisUtterance(text)
+     
+        // Choose voice based on gender
+       const voices= window.speechSynthesis.getVoices();
+       const selectedVoice= voices.find(v=>
+        gender==="male"
+        ? v.name.toLocaleLowerCase().includes("male")|| v.name.toLocaleLowerCase().includes("Deepak")
+        :v.name.toLocaleLowerCase().includes("female")||v.name.toLocaleLowerCase().includes("sima")
+       );
+       if(selectedVoice) msg.voice=selectedVoice;
+
+           msg.pitch = 1;
+           msg.rate = 1;
+
+        window.speechSynthesis.speak(msg);
+
+    }
+       const handleSend = async (e) => {
         e.preventDefault();
         if (!userInput.trim() && step !== 2) return;
 
@@ -57,10 +84,14 @@ const ChatbotDailyExpess = () => {
 
             setTimeout(() => {
                 setIsTyping(false);
+                const botText = fields[newStep].question;
+
                 setMessages((prev) => [
                     ...prev,
                     { sender: "bot", text: fields[newStep].question },
                 ]);
+                    speak(botText, "female"); // 🎤 Speak question
+
             }, 1000);
 
             return;
