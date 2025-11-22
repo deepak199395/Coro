@@ -7,7 +7,7 @@ const NormalTextInput = ({
   onChange,
   type = "text",
   placeholder = "Type here...",
-  options = [], // 🔽 if options are provided → show dropdown
+  options = [], 
   disabled = false,
 }) => {
   return (

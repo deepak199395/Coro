@@ -4,12 +4,13 @@ import botAvatar from "../../Assets/botAvatar.png";
 import { useNavigate } from "react-router-dom";
 import "../../Styles/EmiregiStyle/EmiStyle.css";
 import DatePickerInput from "../Common/DatePickerInput";
-
+import NormalTextInput from "../Common/NormalTextInput"
 const fields = [
     { key: "expenses", question: "How much did you spend today?" },
     { key: "reasonOfExpenses", question: "What did you spend it on?" },
     { key: "dateOfExpenses", question: "Select the date of expense." },
 ];
+const reasonOptions=["Grocery", "Tea", "Lunch / Dinner", "Rent"]
 
 const ChatbotDailyExpess = () => {
     const [step, setStep] = useState(0);
@@ -141,7 +142,7 @@ const ChatbotDailyExpess = () => {
                 <div ref={chatEndRef} />
             </div>
 
-            <form className="input-area" onSubmit={handleSend}>
+            {/* <form className="input-area" onSubmit={handleSend}>
                 {step !== 2 && (
                     <input
                         type="text"
@@ -163,7 +164,45 @@ const ChatbotDailyExpess = () => {
                 <button type="submit">
                     <FaPaperPlane />
                 </button>
-            </form>
+            </form> */}
+            <form className="input-area" onSubmit={handleSend}>
+
+    {/* STEP 0 → Amount input */}
+    {step === 0 && (
+        <NormalTextInput
+            label=""
+            value={userInput}
+            placeholder="Enter amount..."
+            onChange={(val) => setUserInput(val)}
+        />
+    )}
+
+    {/* STEP 1 → Reason dropdown */}
+    {step === 1 && (
+        <NormalTextInput
+            label=""
+            value={userInput}
+            onChange={(val) => setUserInput(val)}
+            options={reasonOptions}   // 🔥 Dropdown enabled
+        />
+    )}
+
+    {/* STEP 2 → Date Picker */}
+    {step === 2 && (
+        <DatePickerInput
+            label=""
+            value={formData.dateOfExpenses || ""}
+            onChange={(val) =>
+                setFormData({ ...formData, dateOfExpenses: val })
+            }
+        />
+    )}
+
+    <button type="submit">
+        <FaPaperPlane />
+    </button>
+</form>
+
         </div>
     );
 };
