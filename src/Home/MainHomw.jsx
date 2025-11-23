@@ -3,6 +3,7 @@ import '../Styles/Home/Mainhome.css';
 import { FaMoneyCheckAlt, FaWallet, FaChartLine, FaFileInvoice } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import Carosel from "../Componants/Common/Carosel.jsx";
+import Header from '../Componants/Layout/Header.jsx';
 
 const MainHome = () => {
   const navigate = useNavigate();
@@ -23,6 +24,7 @@ const MainHome = () => {
 
   return (
     <>
+    <Header/>
       {/* Coachmark Modal */}
       {showCoachmark && (
         <div className="coachmark-overlay">
@@ -45,7 +47,6 @@ const MainHome = () => {
 
       {/* Main Cards Section */}
       <div className="home-container">
-
         <div className="home-card" onClick={() => handleNavigation('/emi')}>
           <FaMoneyCheckAlt className="home-card-icon" />
           <h3>Loans & EMI</h3>

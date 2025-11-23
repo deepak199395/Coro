@@ -10,12 +10,12 @@
 /* main visible container */
 .carousel-container {
   width: 100%;
-  max-width: 1100px;
+  max-width: 1300px;
   height: 360px;
   position: relative;
   overflow: hidden;
   border-radius: 12px;
-  box-shadow: 0 8px 30px rgba(16, 24, 40, 0.2);
+  box-shadow: 0 2px 30px rgba(6, 77, 219, 0.2);
   background: linear-gradient(180deg, #0f1724 0%, #071026 100%);
 }
 

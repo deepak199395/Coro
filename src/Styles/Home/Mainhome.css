@@ -25,6 +25,7 @@ body {
   box-shadow: 0px 8px 25px rgba(0, 0, 0, 0.10);
   transition: transform 0.25s ease, box-shadow 0.25s ease;
   cursor: pointer;
+  height: 180px;
 }
 
 .home-card:hover {
