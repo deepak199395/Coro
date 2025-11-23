@@ -6,8 +6,7 @@ const EmiDashBoard = () => {
   const [emis, setEmi] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
-
-const navigate = useNavigate();
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetch("https://shop999backend.vercel.app/back-end/rest-API/Secure/api/v1/foremi-details/FOX-EMI/api42")
@@ -38,7 +37,7 @@ const navigate = useNavigate();
 
   return (
     <div className="emi-dashboard">
-      <Header/>
+      <Header />
       <h2 className="dashboard-title">📊 EMI Dashboard</h2>
 
       {/* Search bar */}
@@ -52,8 +51,11 @@ const navigate = useNavigate();
       </div>
 
       {/* Show total count */}
-      <p className="total-count">Total EMI Records: {filteredEmis.length}</p>
-
+      {loading ? (
+        <p className="total-count">Loading total records...</p>
+      ) : (
+        <p className="total-count">Total EMI Records: {filteredEmis.length}</p>
+      )}
       {/* No data */}
       {filteredEmis.length === 0 ? (
         <p className="no-data">No matching EMI records found.</p>
@@ -61,8 +63,8 @@ const navigate = useNavigate();
         <div className="emi-grid">
           {filteredEmis.map((emi) => (
             <div className="emi-card" key={emi._id}
-            onClick={()=>navigate("/emiscreen",{state:emi})}
-            style={{ cursor: "pointer" }}>
+              onClick={() => navigate("/emiscreen", { state: emi })}
+              style={{ cursor: "pointer" }}>
 
               <h3>{emi.customerName}</h3>
               <p><strong>Loan ID:</strong> {emi.customerId}</p>

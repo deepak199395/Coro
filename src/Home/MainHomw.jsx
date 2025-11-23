@@ -4,7 +4,7 @@ import { FaMoneyCheckAlt, FaWallet, FaChartLine, FaFileInvoice } from 'react-ico
 import { useNavigate } from 'react-router-dom';
 import Carosel from "../Componants/Common/Carosel.jsx";
 import Header from '../Componants/Layout/Header.jsx';
-
+import Footer from "../Componants/Layout/Footer.jsx"
 const MainHome = () => {
   const navigate = useNavigate();
   const [showCoachmark, setShowCoachmark] = useState(true);
@@ -72,6 +72,7 @@ const MainHome = () => {
         </div>
 
       </div>
+      <Footer/>
     </>
   );
 };
