@@ -1,14 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
-import img2 from "../../Assets/images.jpeg";
-import img3 from "../../Assets/loan-management-software.jpg";
 import img4 from "../../Assets/lon_mangmntprcs.jpg";
-import img5 from "../../Assets/thumbnail-banner-100-1.png";
 import img6 from "../../Assets/loan1.jpeg";
-import img7 from "../../Assets/travelgirk.jpeg";
 import img8 from "../../Assets/icici.jpeg";
+import img9 from "../../Assets/icici.jpeg"
+import img10 from "../../Assets/hdfc.png"
+import img11 from "../../Assets/ICICI_Bank_Logo.svg.png"
 import "../../Styles/CommonStyle/Carosel.css";
 
-const images = [img2, img3, img4, img5, img6, img7, img8];
+const images = [img4,img6,img8,img9,img10,img11];
 
 const Carosel = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
