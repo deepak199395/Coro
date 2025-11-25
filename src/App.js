@@ -20,6 +20,7 @@ import Contact from './Componants/Layout/Contact';
 import Services from './Componants/Layout/Services';
  import ChatbotDailyExpess from './Componants/DailyExpensess/ChatbotDailyExpess';
  import DailyExpensesDashboard from './Componants/DailyExpensess/DailyExpensesDashboard'
+import PinModel from './Auth/PinModel';
 const App = () => {
   return (
     <>
@@ -29,6 +30,7 @@ const App = () => {
           <Route path='/header' element={<Header />} />
           <Route path='/footer' element={<Footer />} />
           <Route path='/login' element={<Login/>}/>
+          <Route path='/create-pin' element={<PinModel/>}/>
           <Route path='/register' element={<Register/>}/>
           <Route path='/about' element={<About/>}/>
           <Route path='/contact' element={<Contact/>}/>

@@ -1,0 +1,89 @@
+/* Background */
+.pin-container {
+  height: 75vh;
+  background: linear-gradient(135deg, #e0f7fa, #c8e6c9);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+/* Card */
+.pin-card {
+  width: 360px;
+  background: #fff;
+  padding: 28px;
+  border-radius: 18px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  text-align: center;
+  animation: fadeSlide 0.4s ease-out;
+}
+
+.pin-card h2 {
+  color: #075e54;
+  margin-bottom: 8px;
+}
+
+.pin-subtitle {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+/* Inputs */
+.pin-input {
+  width: 93%;
+  padding: 12px;
+  margin-bottom: 16px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  font-size: 15px;
+  transition: all 0.2s ease;
+}
+
+.pin-input:focus {
+  border-color: #128c7e;
+  box-shadow: 0 0 6px rgba(18, 140, 126, 0.3);
+}
+
+/* Button */
+.pin-btn {
+  width: 100%;
+  background: #128c7e;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  transition: 0.3s ease;
+}
+
+.pin-btn:hover {
+  background: #0f7a6d;
+}
+
+/* Animation */
+@keyframes fadeSlide {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .pin-card {
+    width: 100%;
+    padding: 22px;
+  }
+
+  .pin-btn {
+    font-size: 15px;
+  }
+}

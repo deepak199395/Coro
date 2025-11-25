@@ -37,9 +37,16 @@ const Login = () => {
       // ✅ Handle success
       if (data.status === true) {
         alert("✅ " + (data.massage || "User login successfully!"));
-        setFormData({ email: "", password: "" });
-        setTimeout(() => {
-          window.location.href = "/";
+
+          // Store login info in localStorage
+          localStorage.setItem("isLogin",true);
+          localStorage.setItem("userEmail",formData.email)
+
+           setFormData({ email: "", password: "" });
+
+             // Navigate to Create PIN screen
+            setTimeout(() => {
+          window.location.href = "/create-pin";
         }, 1000);
 
       } else {
