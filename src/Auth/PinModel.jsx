@@ -96,7 +96,7 @@ const PinModel = () => {
 
       if (data.success === true) {
         alert("✔ PIN Verified Successfully!");
-        setTimeout(() => (window.location.href = "/"), 800);
+        setTimeout(() => (window.location.href = "/home"), 800);
       } else {
         alert(data.message || "❌ Incorrect PIN!");
       }

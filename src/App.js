@@ -26,10 +26,10 @@ const App = () => {
     <>
       <BrowserRouter>
         <Routes>
-          <Route path='/' element={<Home />} />
+          <Route path='/' element={< Login/>} />
           <Route path='/header' element={<Header />} />
           <Route path='/footer' element={<Footer />} />
-          <Route path='/login' element={<Login/>}/>
+          <Route path='/home' element={<Home/>}/>
           <Route path='/create-pin' element={<PinModel/>}/>
           <Route path='/register' element={<Register/>}/>
           <Route path='/about' element={<About/>}/>
