@@ -3,8 +3,11 @@ import "../Styles/AuthStyle/CreatePin.css";
 import Header from "../Componants/Layout/Header";
 import Footer from "../Componants/Layout/Footer";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const PinModel = () => {
+  const navigate = useNavigate();
   const { userEmail, isLogin } = useSelector((state) => state.auth);
 
   const [pin, setPin] = useState("");
@@ -14,19 +17,12 @@ const PinModel = () => {
 
   // Load PIN status + Protect Route
   useEffect(() => {
-    if (!isLogin) {
-      alert("⚠ Please login first!");
-      window.location.href = "/login";
+    if (!isLogin || !userEmail) {
+      toast.error("Please login first!", { autoClose: 1500 });
+      navigate("/login");
       return;
     }
 
-    if (!userEmail) {
-      alert("⚠ No user email found. Please login again.");
-      window.location.href = "/login";
-      return;
-    }
-
-    // 🔍 Check if PIN exists (API 49)
     fetch(
       "https://shop999backend.vercel.app/back-end/rest-API/Secure/api/v1/get-pin/create/get-pin/api49"
     )
@@ -35,20 +31,19 @@ const PinModel = () => {
         const pinRecord = data?.data?.find(
           (p) => p.regiEmailId === userEmail
         );
-
         setHasPin(Boolean(pinRecord));
       })
-      .catch((err) => console.log("❌ Error fetching PIN:", err));
-  }, [isLogin, userEmail]);
+      .catch(() => {
+        toast.error("Failed to check PIN status", { autoClose: 1500 });
+      });
+  }, [isLogin, userEmail, navigate]);
 
-  console.log("🔍 Debug: Logged In User:", userEmail);
-  console.log("🔍 Debug: Login Status:", isLogin);
-  // 🔐 Create PIN (API 48)
+  // CREATE PIN
   const handleCreatePin = async (e) => {
     e.preventDefault();
 
     if (pin !== confirmPin) {
-      alert("❌ PIN and Confirm PIN do not match!");
+      toast.error("PIN and Confirm PIN do not match!", { autoClose: 1500 });
       return;
     }
 
@@ -63,7 +58,7 @@ const PinModel = () => {
           body: JSON.stringify({
             regiEmailId: userEmail,
             EnterPin: pin,
-            confirmPin: confirmPin,
+            confirmPin,
           }),
         }
       );
@@ -71,19 +66,21 @@ const PinModel = () => {
       const data = await response.json();
 
       if (data.success === true) {
-        alert("🔐 " + data.message);
-        setTimeout(() => (window.location.href = "/home"), 800);
+        toast.success(data.message, { autoClose: 1200 });
+        setTimeout(() => navigate("/home"), 1200);
       } else {
-        alert(data.message || "❌ Unable to create PIN!");
+        toast.error(data.message || "Unable to create PIN", {
+          autoClose: 1500,
+        });
       }
-    } catch (error) {
-      alert("⚠ Server error while creating PIN.");
+    } catch {
+      toast.error("Server error. Try again later.", { autoClose: 1500 });
     } finally {
       setLoading(false);
     }
   };
 
-  // 🔑 Verify PIN (API 50)
+  // VERIFY PIN
   const handleVerifyPin = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -104,13 +101,15 @@ const PinModel = () => {
       const data = await response.json();
 
       if (data.success === true) {
-        alert("✔ PIN Verified Successfully!");
-        setTimeout(() => (window.location.href = "/home"), 800);
+        toast.success("PIN Verified Successfully!", { autoClose: 1200 });
+        setTimeout(() => navigate("/home"), 1200);
       } else {
-        alert(data.message || "❌ Incorrect PIN!");
+        toast.error(data.message || "Incorrect PIN", { autoClose: 1500 });
       }
-    } catch (error) {
-      alert("⚠ Server error while verifying PIN.");
+    } catch {
+      toast.error("Server error while verifying PIN.", {
+        autoClose: 1500,
+      });
     } finally {
       setLoading(false);
     }
@@ -133,11 +132,9 @@ const PinModel = () => {
               : "This PIN will secure your account"}
           </p>
 
-          {/* Show Email from Redux */}
           <label>Email</label>
           <input type="email" value={userEmail} disabled className="pin-input" />
 
-          {/* PIN Inputs */}
           {hasPin ? (
             <>
               <label>Enter PIN</label>

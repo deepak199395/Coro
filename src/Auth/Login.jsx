@@ -49,11 +49,11 @@ const Login = () => {
           window.location.href = "/create-pin";
         }, 800);
       } else {
-        alert(data.massage || "❌ Invalid email or password!");
+        alert(data.massage || "Invalid email or password!");
       }
     } catch (error) {
       console.error("Login Error:", error);
-      alert("⚠️ Server error. Please try again later.");
+      alert("Server error. Please try again later.");
     } finally {
       setLoading(false);
     }
