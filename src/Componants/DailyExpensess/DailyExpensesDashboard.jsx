@@ -6,6 +6,7 @@ import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import { MdDelete } from "react-icons/md";
 import { MdEdit } from "react-icons/md";
+import { useSelector } from "react-redux";
 
 ChartJS.register(BarElement, ArcElement, CategoryScale, LinearScale, Tooltip, Legend);
 
@@ -22,6 +23,8 @@ const DailyExpensesDashboard = () => {
     reasonOfExpenses: "",
     dateOfExpenses: ""
   })
+  const { userEmail, isLogin } = useSelector((state) => state.auth);
+  
   const handleUpdate = async () => {
     try {
       const res = await fetch(
@@ -61,16 +64,30 @@ const DailyExpensesDashboard = () => {
       alert("Server error while updating.");
     }
   }
+  console.log("who is login ?",userEmail);
+  
   useEffect(() => {
-    fetch(
-      "https://shop999backend.vercel.app/back-end/rest-API/Secure/api/v1/expess-deatils/fox-getExpensse/api44"
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        setExpenses(data.getexpess);
-        setFiltered(data.getexpess);
-      });
-  }, []);
+  if (!isLogin || !userEmail) return;
+
+  fetch(
+    "https://shop999backend.vercel.app/back-end/rest-API/Secure/api/v1/expess-deatils/fox-getExpensse/api44"
+  )
+    .then((res) => res.json())
+    .then((data) => {
+     
+      // ⭐ Filter only logged-in user's expenses
+      const userExpenses = data.getexpess.filter(
+        (e) => e.regiEmailId === userEmail
+      );
+      console.log("getexpess",data)
+      // ⭐ Use the userExpenses here:
+      setExpenses(userExpenses);     // full list for calculations
+      setFiltered(userExpenses);     // filtered list for UI/search
+      console.log("==========>userExpenses",userExpenses)
+    })
+    .catch((err) => console.log("Error loading expenses:", err));
+}, [userEmail, isLogin]);
+
 
   const handleDelete = async (id) => {
     try {

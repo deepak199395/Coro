@@ -5,6 +5,50 @@
   background: #ece5dd;
   border: 1px solid #ccc;
 }
+/* YES/NO Dropdown – clean UI */
+.dropdown-input {
+  width: 85%;
+  padding: 12px 14px;
+  font-size: 15px;
+  border-radius: 12px;
+  border: 2px solid #ddd;
+  outline: none;
+  background: #ffffff;
+  color: #333;
+  appearance: none;
+  cursor: pointer;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  margin-right: 10px;
+}
+
+/* Hover effect */
+.dropdown-input:hover {
+  border-color: #128c7e;
+}
+
+/* Focus effect */
+.dropdown-input:focus {
+  border-color: #128c7e;
+  box-shadow: 0 0 4px rgba(18, 140, 126, 0.4);
+}
+
+/* Style dropdown arrow */
+.dropdown-input::-ms-expand {
+  display: none;
+}
+
+.dropdown-input::after {
+  content: "▼";
+}
+
+/* Make dropdown look like WhatsApp chat input */
+.chat-container .input-area {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
 
 /* 🟩 Header */
 .chat-header {

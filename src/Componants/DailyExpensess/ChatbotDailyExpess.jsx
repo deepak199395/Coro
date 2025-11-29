@@ -4,67 +4,139 @@ import botAvatar from "../../Assets/botAvatar.png";
 import { useNavigate } from "react-router-dom";
 import "../../Styles/EmiregiStyle/EmiStyle.css";
 import DatePickerInput from "../Common/DatePickerInput";
-import NormalTextInput from "../Common/NormalTextInput"
+import NormalTextInput from "../Common/NormalTextInput";
+import { useSelector } from "react-redux";
 
-
+// Chat fields AFTER email confirmation
 const fields = [
     { key: "expenses", question: "How much did you spend today?" },
     { key: "reasonOfExpenses", question: "What did you spend it on?" },
     { key: "dateOfExpenses", question: "Select the date of expense." },
 ];
-const reasonOptions=["Grocery 🛒","Tea / BreakFast☕","Lunch / Dinner🍽","Rent🏠","Drink","EMIs","Petrol🏠","Others"]
 
+const reasonOptions = [
+    "Grocery 🛒",
+    "Tea / BreakFast☕",
+    "Lunch / Dinner🍽",
+    "Rent🏠",
+    "Drink",
+    "EMIs",
+    "Petrol🏠",
+    "Others"
+];
+
+const yesNoOptions = ["Yes", "No"];
 
 const ChatbotDailyExpess = () => {
+    const navigate = useNavigate();
+    const chatEndRef = useRef(null);
+
+    const { userEmail } = useSelector((state) => state.auth);
+
     const [step, setStep] = useState(0);
     const [messages, setMessages] = useState([]);
     const [userInput, setUserInput] = useState("");
     const [formData, setFormData] = useState({});
     const [isTyping, setIsTyping] = useState(false);
-    const chatEndRef = useRef(null);
-    const navigate = useNavigate();
+
+    const [emailStep, setEmailStep] = useState(true);
+    const [waitingForEmail, setWaitingForEmail] = useState(false);
 
     // Auto-scroll
     useEffect(() => {
         chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
     }, [messages]);
 
-    // Start Chat (NO WARNING NOW)
+    // Start chat
     useEffect(() => {
         const intro = "Hello! Let's record your daily expense.";
-        const firstQ = fields[0].question;
+        const askEmail = `Is this your registered email ID: ${userEmail}? (Yes / No)`;
+
         setMessages([
-            { sender: "bot", text: "👋 Hello! Let's record your daily expense." },
-            { sender: "bot", text: fields[0].question },
+            { sender: "bot", text: intro },
+            { sender: "bot", text: askEmail },
         ]);
+
         speak(intro, "female");
-        setTimeout(() => speak(firstQ, "female"), 1000);
-    }, []); // SAFE: fields is outside component
+        setTimeout(() => speak(askEmail, "female"), 1000);
+    }, [userEmail]);
 
-     // 🗣️ TEXT TO SPEECH (TTS)
-     const speak = (text,gender="female")=>{
-        if(!window.speechSynthesis)return;
-        const msg= new SpeechSynthesisUtterance(text)
-     
-        // Choose voice based on gender
-       const voices= window.speechSynthesis.getVoices();
-       const selectedVoice= voices.find(v=>
-        gender==="male"
-        ? v.name.toLocaleLowerCase().includes("male")|| v.name.toLocaleLowerCase().includes("Deepak")
-        :v.name.toLocaleLowerCase().includes("female")||v.name.toLocaleLowerCase().includes("sima")
-       );
-       if(selectedVoice) msg.voice=selectedVoice;
-
-           msg.pitch = 1;
-           msg.rate = 1;
-
+    // 🗣️ Voice
+    const speak = (text, gender = "female") => {
+        if (!window.speechSynthesis) return;
+        const msg = new SpeechSynthesisUtterance(text);
+        const voices = window.speechSynthesis.getVoices();
+        const selectedVoice = voices.find((v) =>
+            gender === "female"
+                ? v.name.toLowerCase().includes("female")
+                : v.name.toLowerCase().includes("male")
+        );
+        if (selectedVoice) msg.voice = selectedVoice;
+        msg.pitch = 1;
+        msg.rate = 1;
         window.speechSynthesis.speak(msg);
+    };
 
-    }
-       const handleSend = async (e) => {
+    // MAIN SENDING LOGIC
+    const handleSend = async (e) => {
         e.preventDefault();
+
+        // No empty answer allowed
         if (!userInput.trim() && step !== 2) return;
 
+        // ⭐ STEP 1 — EMAIL CONFIRMATION YES/NO
+        if (emailStep) {
+            const answer = userInput.trim().toLowerCase();
+
+            setMessages((prev) => [...prev, { sender: "user", text: userInput }]);
+            setUserInput("");
+
+            if (answer === "yes") {
+                setFormData((prev) => ({ ...prev, regiEmailId: userEmail }));
+                setEmailStep(false);
+
+                const firstQ = fields[0].question;
+                setMessages((prev) => [...prev, { sender: "bot", text: firstQ }]);
+                speak(firstQ, "female");
+                return;
+            }
+
+            if (answer === "no") {
+                const askCorrectEmail = "Please enter your registered email ID.";
+                setMessages((prev) => [...prev, { sender: "bot", text: askCorrectEmail }]);
+                speak(askCorrectEmail, "female");
+
+                setWaitingForEmail(true);
+                return;
+            }
+
+            const again = "Please select Yes or No from the dropdown.";
+            setMessages((prev) => [...prev, { sender: "bot", text: again }]);
+            speak(again, "female");
+            return;
+        }
+
+        // ⭐ STEP 2 — User enters email manually
+        if (waitingForEmail) {
+            setMessages((prev) => [...prev, { sender: "user", text: userInput }]);
+
+            setFormData((prev) => ({
+                ...prev,
+                regiEmailId: userInput,
+            }));
+
+            setWaitingForEmail(false);
+            setEmailStep(false);
+            setUserInput("");
+
+            const firstQ = fields[0].question;
+            setMessages((prev) => [...prev, { sender: "bot", text: firstQ }]);
+            speak(firstQ, "female");
+
+            return;
+        }
+
+        // ⭐ STEP 3 — NORMAL BOT QUESTIONS
         const currentField = fields[step];
 
         setMessages((prev) => [
@@ -73,6 +145,7 @@ const ChatbotDailyExpess = () => {
         ]);
 
         const valueToSave = step === 2 ? formData.dateOfExpenses : userInput;
+
         setFormData((prev) => ({ ...prev, [currentField.key]: valueToSave }));
 
         const newStep = step + 1;
@@ -88,16 +161,15 @@ const ChatbotDailyExpess = () => {
 
                 setMessages((prev) => [
                     ...prev,
-                    { sender: "bot", text: fields[newStep].question },
+                    { sender: "bot", text: botText },
                 ]);
-                    speak(botText, "female"); // 🎤 Speak question
-
+                speak(botText, "female");
             }, 1000);
 
             return;
         }
 
-        // Submit to backend
+        // ⭐ STEP 4 — SUBMIT TO BACKEND
         setMessages((prev) => [
             ...prev,
             { sender: "bot", text: "⏳ Saving your expense..." },
@@ -121,19 +193,17 @@ const ChatbotDailyExpess = () => {
                     { sender: "bot", text: "✅ Expense saved successfully! 🎉" },
                 ]);
 
-                setTimeout(() => {
-                    navigate("/dailyExpensesDashboard");
-                }, 2000);
+                setTimeout(() => navigate("/dailyExpensesDashboard"), 1500);
             } else {
                 setMessages((prev) => [
                     ...prev,
-                    { sender: "bot", text: "❌ Something went wrong. Please try again." },
+                    { sender: "bot", text: "❌ Something went wrong!" },
                 ]);
             }
-        } catch (error) {
+        } catch {
             setMessages((prev) => [
                 ...prev,
-                { sender: "bot", text: "⚠️ Server error. Try again later." },
+                { sender: "bot", text: "⚠️ Server error. Try again." },
             ]);
         }
     };
@@ -163,9 +233,7 @@ const ChatbotDailyExpess = () => {
                     <div className="message bot typing">
                         <img src={botAvatar} alt="bot" className="bot-icon" />
                         <div className="typing-dots">
-                            <span></span>
-                            <span></span>
-                            <span></span>
+                            <span></span><span></span><span></span>
                         </div>
                     </div>
                 )}
@@ -173,18 +241,61 @@ const ChatbotDailyExpess = () => {
                 <div ref={chatEndRef} />
             </div>
 
-            {/* <form className="input-area" onSubmit={handleSend}>
-                {step !== 2 && (
-                    <input
-                        type="text"
-                        placeholder="Type your answer..."
+            {/* ⭐ INPUT AREA */}
+            <form className="input-area" onSubmit={handleSend}>
+
+                {/* 1️⃣ YES / NO DROPDOWN */}
+                {emailStep && !waitingForEmail && (
+                    <select
                         value={userInput}
                         onChange={(e) => setUserInput(e.target.value)}
+                        className="dropdown-input"
+                        required
+                    >
+                        <option value="">Select Yes or No</option>
+                        {yesNoOptions.map((opt, i) => (
+                            <option key={i} value={opt.toLowerCase()}>
+                                {opt}
+                            </option>
+                        ))}
+                    </select>
+                )}
+
+                {/* 2️⃣ USER ENTER EMAIL */}
+                {waitingForEmail && (
+                    <input
+                        type="email"
+                        value={userInput}
+                        onChange={(e) => setUserInput(e.target.value)}
+                        placeholder="Enter your registered email..."
+                        required
                     />
                 )}
 
-                {step === 2 && (
+                {/* 3️⃣ AMOUNT */}
+                {!emailStep && !waitingForEmail && step === 0 && (
+                    <NormalTextInput
+                        label=""
+                        value={userInput}
+                        placeholder="Enter amount..."
+                        onChange={(val) => setUserInput(val)}
+                    />
+                )}
+
+                {/* 4️⃣ REASON */}
+                {!emailStep && !waitingForEmail && step === 1 && (
+                    <NormalTextInput
+                        label=""
+                        value={userInput}
+                        onChange={(val) => setUserInput(val)}
+                        options={reasonOptions}
+                    />
+                )}
+
+                {/* 5️⃣ DATE PICKER */}
+                {!emailStep && !waitingForEmail && step === 2 && (
                     <DatePickerInput
+                        label=""
                         value={formData.dateOfExpenses || ""}
                         onChange={(val) =>
                             setFormData({ ...formData, dateOfExpenses: val })
@@ -195,45 +306,7 @@ const ChatbotDailyExpess = () => {
                 <button type="submit">
                     <FaPaperPlane />
                 </button>
-            </form> */}
-            <form className="input-area" onSubmit={handleSend}>
-
-    {/* STEP 0 → Amount input */}
-    {step === 0 && (
-        <NormalTextInput
-            label=""
-            value={userInput}
-            placeholder="Enter amount..."
-            onChange={(val) => setUserInput(val)}
-        />
-    )}
-
-    {/* STEP 1 → Reason dropdown */}
-    {step === 1 && (
-        <NormalTextInput
-            label=""
-            value={userInput}
-            onChange={(val) => setUserInput(val)}
-            options={reasonOptions}   // 🔥 Dropdown enabled
-        />
-    )}
-
-    {/* STEP 2 → Date Picker */}
-    {step === 2 && (
-        <DatePickerInput
-            label=""
-            value={formData.dateOfExpenses || ""}
-            onChange={(val) =>
-                setFormData({ ...formData, dateOfExpenses: val })
-            }
-        />
-    )}
-
-    <button type="submit">
-        <FaPaperPlane />
-    </button>
-</form>
-
+            </form>
         </div>
     );
 };
