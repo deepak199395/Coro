@@ -1,44 +1,54 @@
-import React, { useEffect, useState } from 'react'
-import "../Styles/AuthStyle/CreatePin.css"
-import Header from '../Componants/Layout/Header'
-import Footer from '../Componants/Layout/Footer'
+import React, { useEffect, useState } from "react";
+import "../Styles/AuthStyle/CreatePin.css";
+import Header from "../Componants/Layout/Header";
+import Footer from "../Componants/Layout/Footer";
+import { useSelector } from "react-redux";
 
 const PinModel = () => {
-  const [email, setEmail] = useState("");
+  const { userEmail, isLogin } = useSelector((state) => state.auth);
+
   const [pin, setPin] = useState("");
   const [confirmPin, setConfirmPin] = useState("");
   const [loading, setLoading] = useState(false);
-  const [hasPin, setHasPin] = useState(false); // 🔥 NEW — does this email already have PIN?
+  const [hasPin, setHasPin] = useState(false);
 
-  // Load email and check if PIN exists
+  // Load PIN status + Protect Route
   useEffect(() => {
-    const storedEmail = localStorage.getItem("userEmail");
-
-    if (!storedEmail) {
-      alert("No email found. Please login again.");
+    if (!isLogin) {
+      alert("⚠ Please login first!");
       window.location.href = "/login";
       return;
     }
 
-    setEmail(storedEmail);
-    
-    // 🔍 Check if PIN exists using API49
-    fetch("https://shop999backend.vercel.app/back-end/rest-API/Secure/api/v1/get-pin/create/get-pin/api49")
-      .then(res => res.json())
-      .then(data => {
-        const pinRecord = data?.data?.find(p => p.regiEmailId === storedEmail);
-        setHasPin(Boolean(pinRecord)); // true if user already created a PIN earlier
+    if (!userEmail) {
+      alert("⚠ No user email found. Please login again.");
+      window.location.href = "/login";
+      return;
+    }
+
+    // 🔍 Check if PIN exists (API 49)
+    fetch(
+      "https://shop999backend.vercel.app/back-end/rest-API/Secure/api/v1/get-pin/create/get-pin/api49"
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        const pinRecord = data?.data?.find(
+          (p) => p.regiEmailId === userEmail
+        );
+
+        setHasPin(Boolean(pinRecord));
       })
-      .catch(err => console.log("❌ Error fetching PIN:", err));
+      .catch((err) => console.log("❌ Error fetching PIN:", err));
+  }, [isLogin, userEmail]);
 
-  }, []);
-
-  // 🔐 Create NEW PIN (api48)
+  console.log("🔍 Debug: Logged In User:", userEmail);
+  console.log("🔍 Debug: Login Status:", isLogin);
+  // 🔐 Create PIN (API 48)
   const handleCreatePin = async (e) => {
     e.preventDefault();
 
     if (pin !== confirmPin) {
-      alert("❌ PIN & Confirm PIN do not match!");
+      alert("❌ PIN and Confirm PIN do not match!");
       return;
     }
 
@@ -51,7 +61,7 @@ const PinModel = () => {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            regiEmailId: email,
+            regiEmailId: userEmail,
             EnterPin: pin,
             confirmPin: confirmPin,
           }),
@@ -62,19 +72,18 @@ const PinModel = () => {
 
       if (data.success === true) {
         alert("🔐 " + data.message);
-        setTimeout(() => (window.location.href = "/"), 800);
+        setTimeout(() => (window.location.href = "/home"), 800);
       } else {
         alert(data.message || "❌ Unable to create PIN!");
       }
     } catch (error) {
-      console.log(error);
       alert("⚠ Server error while creating PIN.");
     } finally {
       setLoading(false);
     }
   };
 
-  // 🔑 Verify Existing PIN (api50)
+  // 🔑 Verify PIN (API 50)
   const handleVerifyPin = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -86,7 +95,7 @@ const PinModel = () => {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            regiEmailId: email,
+            regiEmailId: userEmail,
             EnterPin: pin,
           }),
         }
@@ -101,7 +110,6 @@ const PinModel = () => {
         alert(data.message || "❌ Incorrect PIN!");
       }
     } catch (error) {
-      console.log(error);
       alert("⚠ Server error while verifying PIN.");
     } finally {
       setLoading(false);
@@ -113,19 +121,23 @@ const PinModel = () => {
       <Header />
 
       <div className="pin-container">
-        <form className="pin-card" onSubmit={hasPin ? handleVerifyPin : handleCreatePin}>
-          
+        <form
+          className="pin-card"
+          onSubmit={hasPin ? handleVerifyPin : handleCreatePin}
+        >
           <h2>{hasPin ? "Enter Your PIN 🔐" : "Create Your Security PIN 🔐"}</h2>
 
           <p className="pin-subtitle">
-            {hasPin ? "Enter your PIN to continue" : "This PIN will protect your data"}
+            {hasPin
+              ? "Enter your PIN to continue"
+              : "This PIN will secure your account"}
           </p>
 
-          {/* Email (Auto-filled) */}
+          {/* Show Email from Redux */}
           <label>Email</label>
-          <input type="email" value={email} disabled className="pin-input" />
+          <input type="email" value={userEmail} disabled className="pin-input" />
 
-          {/* If PIN already exists → Only show Enter PIN */}
+          {/* PIN Inputs */}
           {hasPin ? (
             <>
               <label>Enter PIN</label>
@@ -163,7 +175,13 @@ const PinModel = () => {
           )}
 
           <button type="submit" className="pin-btn" disabled={loading}>
-            {loading ? (hasPin ? "Verifying..." : "Creating...") : (hasPin ? "Verify PIN" : "Create PIN")}
+            {loading
+              ? hasPin
+                ? "Verifying..."
+                : "Creating..."
+              : hasPin
+              ? "Verify PIN"
+              : "Create PIN"}
           </button>
         </form>
       </div>

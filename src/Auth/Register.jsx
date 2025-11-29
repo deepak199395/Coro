@@ -60,7 +60,7 @@ const Register = () => {
 
         // Redirect after short delay
         setTimeout(() => {
-          navigate("/login");
+          navigate("/");
         }, 800);
       } else {
         alert(data.message || "❌ Something went wrong!");

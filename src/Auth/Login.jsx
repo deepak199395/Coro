@@ -1,28 +1,29 @@
 import React, { useState } from "react";
 import { FaUser, FaLock } from "react-icons/fa";
 import "../Styles/AuthStyle/Login.css";
+import { useDispatch } from "react-redux";
+import { login } from "../ReducToolkit/Slices/authSlice";
 
 const Login = () => {
+  const dispatch = useDispatch();
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
 
   const [loading, setLoading] = useState(false);
-
-  // Handle input change
+   // Handle input change
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // Handle submit
+  // Handle Login Submit
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
 
     try {
-      // Send POST request
       const response = await fetch(
         "https://shop999backend.vercel.app/back-end/rest-API/Secure/api/v1/foxuserLogin/foxuser-corologin/api40",
         {
@@ -34,26 +35,24 @@ const Login = () => {
 
       const data = await response.json();
 
-      // ✅ Handle success
       if (data.status === true) {
-        alert("✅ " + (data.massage || "User login successfully!"));
+        alert("✅ " + (data.massage || "Login Successful!"));
 
-          // Store login info in localStorage
-          localStorage.setItem("isLogin",true);
-          localStorage.setItem("userEmail",formData.email)
+        // ⭐ Save email in Redux Toolkit
+        dispatch(login(formData.email));
 
-           setFormData({ email: "", password: "" });
+        // Reset form
+        setFormData({ email: "", password: "" });
 
-             // Navigate to Create PIN screen
-            setTimeout(() => {
+        // Redirect to PIN screen
+        setTimeout(() => {
           window.location.href = "/create-pin";
-        }, 1000);
-
+        }, 800);
       } else {
         alert(data.massage || "❌ Invalid email or password!");
       }
     } catch (error) {
-      console.error("Error:", error);
+      console.error("Login Error:", error);
       alert("⚠️ Server error. Please try again later.");
     } finally {
       setLoading(false);
@@ -66,6 +65,7 @@ const Login = () => {
         <h2>Welcome Back 👋</h2>
         <p>Login to your account</p>
 
+        {/* Email Field */}
         <div className="input-group">
           <FaUser className="input-icon" />
           <input
@@ -78,6 +78,7 @@ const Login = () => {
           />
         </div>
 
+        {/* Password Field */}
         <div className="input-group">
           <FaLock className="input-icon" />
           <input
@@ -90,6 +91,7 @@ const Login = () => {
           />
         </div>
 
+        {/* Submit Button */}
         <button type="submit" className="login-btn" disabled={loading}>
           {loading ? "Logging in..." : "Login"}
         </button>
