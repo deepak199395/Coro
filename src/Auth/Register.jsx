@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { FaUser, FaEnvelope, FaPhone, FaCity, FaLock, FaMapPin } from "react-icons/fa";
 import "../Styles/AuthStyle/Register.css";
 import { useNavigate } from "react-router-dom";
-
+import "react-toastify/dist/ReactToastify.css";
+import { toast } from 'react-toastify';
 const Register = () => {
   const navigate = useNavigate();
 
@@ -45,7 +46,7 @@ const Register = () => {
       const data = await response.json();
 
       if (data.success || data.status === true) {
-        alert("✅ Press OK to submit your information!");
+        toast.success("✅ Press OK to submit your information!");
 
         // Reset form
         setFormData({
@@ -63,11 +64,11 @@ const Register = () => {
           navigate("/");
         }, 800);
       } else {
-        alert(data.message || "❌ Something went wrong!");
+        toast.error(data.message || "❌ Something went wrong!");
       }
     } catch (error) {
       console.error("Error:", error);
-      alert("❌ Registration failed! Please try again later.");
+      toast.error("❌ Registration failed! Please try again later.");
     } finally {
       setLoading(false);
     }

@@ -3,6 +3,8 @@ import { FaUser, FaLock } from "react-icons/fa";
 import "../Styles/AuthStyle/Login.css";
 import { useDispatch } from "react-redux";
 import { login } from "../ReducToolkit/Slices/authSlice";
+import "react-toastify/dist/ReactToastify.css";
+import { toast } from 'react-toastify';
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -13,7 +15,7 @@ const Login = () => {
   });
 
   const [loading, setLoading] = useState(false);
-   // Handle input change
+  // Handle input change
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -36,7 +38,7 @@ const Login = () => {
       const data = await response.json();
 
       if (data.status === true) {
-        alert("✅ " + (data.massage || "Login Successful!"));
+        toast.success(data.massage || "Saved successfully");
 
         // ⭐ Save email in Redux Toolkit
         dispatch(login(formData.email));
@@ -49,11 +51,12 @@ const Login = () => {
           window.location.href = "/create-pin";
         }, 800);
       } else {
-        alert(data.massage || "Invalid email or password!");
+        toast.error(data.massage || "Invalid email or password!");
       }
     } catch (error) {
       console.error("Login Error:", error);
-      alert("Server error. Please try again later.");
+      toast.error("Server error. Please try again later.");
+
     } finally {
       setLoading(false);
     }

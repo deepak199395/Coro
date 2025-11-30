@@ -7,7 +7,8 @@ import html2canvas from "html2canvas";
 import { MdDelete } from "react-icons/md";
 import { MdEdit } from "react-icons/md";
 import { useSelector } from "react-redux";
-
+import "react-toastify/dist/ReactToastify.css";
+import { toast } from 'react-toastify';
 ChartJS.register(BarElement, ArcElement, CategoryScale, LinearScale, Tooltip, Legend);
 
 const DailyExpensesDashboard = () => {
@@ -41,7 +42,7 @@ const DailyExpensesDashboard = () => {
       );
       const data = await res.json();
       if (data.success === true) {
-        alert(data.message);
+        toast.success(data.message);
         // Update UI instantly
         setExpenses((prev) =>
           prev.map((item) =>
@@ -56,12 +57,12 @@ const DailyExpensesDashboard = () => {
         setEditModal(false);
 
       } else {
-        alert(data.message);
+        toast.success(data.message);
 
       }
     } catch (error) {
       console.log("Update error:", error);
-      alert("Server error while updating.");
+      toast.success("Server error while updating.");
     }
   }
   console.log("who is login ?",userEmail);
@@ -101,7 +102,7 @@ const DailyExpensesDashboard = () => {
       const data = await res.json();
 
       if (data.success === true) {
-        alert(data.message || "Expense deleted successfully!");
+        toast.success(data.message || "Expense deleted successfully!");
 
         const deletedId = data.data?._id;
 
@@ -111,11 +112,11 @@ const DailyExpensesDashboard = () => {
           setExpenses((prev) => prev.filter((item) => item._id !== deletedId));
         }
       } else {
-        alert(data.message || "Failed to delete expense.");
+        toast.success(data.message || "Failed to delete expense.");
       }
     } catch (error) {
       console.error("Delete error:", error);
-      alert("Server error while deleting.");
+      toast.success("Server error while deleting.");
     }
   };
 

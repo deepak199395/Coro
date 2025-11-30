@@ -1,5 +1,8 @@
 import React from 'react';
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 import Home from './Home/Home';
 import Header from './Componants/Layout/Header';
 import Footer from './Componants/Layout/Footer';
@@ -25,6 +28,17 @@ const App = () => {
   return (
     <>
       <BrowserRouter>
+        {/* ✅ TOAST CONTAINER – MUST BE HERE */}
+        <ToastContainer
+          position="top-right"
+          autoClose={3000}
+          hideProgressBar={false}
+          newestOnTop={true}
+          closeOnClick
+          pauseOnHover
+          draggable
+          theme="light"
+        />
         <Routes>
           <Route path='/' element={< Login/>} />
           <Route path='/header' element={<Header />} />
