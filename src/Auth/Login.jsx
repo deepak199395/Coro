@@ -5,9 +5,11 @@ import { useDispatch } from "react-redux";
 import { login } from "../ReducToolkit/Slices/authSlice";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from 'react-toastify';
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     email: "",
@@ -48,7 +50,7 @@ const Login = () => {
 
         // Redirect to PIN screen
         setTimeout(() => {
-          window.location.href = "/create-pin";
+          navigate("/create-pin")
         }, 800);
       } else {
         toast.error(data.massage || "Invalid email or password!");

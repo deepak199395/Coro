@@ -30,15 +30,12 @@ const yesNoOptions = ["Yes", "No"];
 const ChatbotDailyExpess = () => {
     const navigate = useNavigate();
     const chatEndRef = useRef(null);
-
     const { userEmail } = useSelector((state) => state.auth);
-
     const [step, setStep] = useState(0);
     const [messages, setMessages] = useState([]);
     const [userInput, setUserInput] = useState("");
     const [formData, setFormData] = useState({});
     const [isTyping, setIsTyping] = useState(false);
-
     const [emailStep, setEmailStep] = useState(true);
     const [waitingForEmail, setWaitingForEmail] = useState(false);
 

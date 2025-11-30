@@ -84,7 +84,6 @@ const DailyExpensesDashboard = () => {
       // ⭐ Use the userExpenses here:
       setExpenses(userExpenses);     // full list for calculations
       setFiltered(userExpenses);     // filtered list for UI/search
-      console.log("==========>userExpenses",userExpenses)
     })
     .catch((err) => console.log("Error loading expenses:", err));
 }, [userEmail, isLogin]);
