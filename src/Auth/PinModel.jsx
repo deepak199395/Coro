@@ -24,7 +24,7 @@ const PinModel = () => {
     }
 
     fetch(
-      "https://shop999backend.vercel.app/back-end/rest-API/Secure/api/v1/get-pin/create/get-pin/api49"
+      "https://shop999backend.vercel.app/api/v1/pins/list/api49"
     )
       .then((res) => res.json())
       .then((data) => {
@@ -51,7 +51,7 @@ const PinModel = () => {
 
     try {
       const response = await fetch(
-        "https://shop999backend.vercel.app/back-end/rest-API/Secure/api/v1/create-new-pin/create/create-pin/api48",
+        "https://shop999backend.vercel.app/api/v1/pins/create/api48",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -87,7 +87,7 @@ const PinModel = () => {
 
     try {
       const response = await fetch(
-        "https://shop999backend.vercel.app/back-end/rest-API/Secure/api/v1/verify-exixtingPin/verify/exixtingPin/api50",
+        "https://shop999backend.vercel.app/api/v1/pins/verify/api50",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

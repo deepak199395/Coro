@@ -174,7 +174,7 @@ const ChatbotDailyExpess = () => {
 
         try {
             const res = await fetch(
-                "https://shop999backend.vercel.app/back-end/rest-API/Secure/api/v1/expensse-deails/fox-expenses/api43",
+                "https://shop999backend.vercel.app/api/v1/expenses/create/api43",
                 {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },

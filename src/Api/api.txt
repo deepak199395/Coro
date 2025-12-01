@@ -1,0 +1,28 @@
+⭐ BASE URL
+https://shop999backend.vercel.app/api/v1
+
+
+| API   | Method | Endpoint               |
+| ----- | ------ | ---------------------- |
+| api39 | POST   | `/auth/register/api39` |
+| api40 | POST   | `/auth/login/api40`    |
+
+
+| API   | Method | Endpoint            |
+| ----- | ------ | ------------------- |
+| api41 | POST   | `/emi/create/api41` |
+| api42 | GET    | `/emi/list/api42`   |
+
+
+| API   | Method | Endpoint                     |
+| ----- | ------ | ---------------------------- |
+| api43 | POST   | `/expenses/create/api43`     |
+| api44 | GET    | `/expenses/list/api44`       |
+| api46 | PUT    | `/expenses/update/api46/:id` |
+| api47 | DELETE | `/expenses/delete/api47/:id` |
+
+| API   | Method | Endpoint             |
+| ----- | ------ | -------------------- |
+| api48 | POST   | `/pins/create/api48` |
+| api49 | GET    | `/pins/list/api49`   |
+| api50 | POST   | `/pins/verify/api50` |

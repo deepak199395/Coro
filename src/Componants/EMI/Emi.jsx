@@ -8,7 +8,7 @@ const Emi = () => {
   const [emiList, setEmiList] = useState([]);
 
   useEffect(() => {
-    fetch("https://shop999backend.vercel.app/back-end/rest-API/Secure/api/v1/foremi-details/FOX-EMI/api42")
+    fetch("https://shop999backend.vercel.app/api/v1/emi/list/api42")
       .then((res) => res.json())
       .then((data) => {
         if (data && data.allEmi) {

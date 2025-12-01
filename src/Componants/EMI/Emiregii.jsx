@@ -124,7 +124,7 @@ const EmiChatBot = () => {
 
     try {
       const res = await fetch(
-        "https://shop999backend.vercel.app/back-end/rest-API/Secure/api/v1/foxEMI/FOX-EMI/api41",
+        "https://shop999backend.vercel.app/api/v1/emi/create/api41",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

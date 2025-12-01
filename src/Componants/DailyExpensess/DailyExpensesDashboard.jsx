@@ -29,7 +29,7 @@ const DailyExpensesDashboard = () => {
   const handleUpdate = async () => {
     try {
       const res = await fetch(
-        `https://shop999backend.vercel.app/back-end/rest-API/Secure/api/v1/update-daily-apenses/daily-exp-privete-api/api46/${editData.id}`,
+        `https://shop999backend.vercel.app/api/v1/expenses/update/api46/${editData.id}`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -71,7 +71,7 @@ const DailyExpensesDashboard = () => {
   if (!isLogin || !userEmail) return;
 
   fetch(
-    "https://shop999backend.vercel.app/back-end/rest-API/Secure/api/v1/expess-deatils/fox-getExpensse/api44"
+    "https://shop999backend.vercel.app/api/v1/expenses/list/api44"
   )
     .then((res) => res.json())
     .then((data) => {
@@ -92,7 +92,7 @@ const DailyExpensesDashboard = () => {
   const handleDelete = async (id) => {
     try {
       const res = await fetch(
-        `https://shop999backend.vercel.app/back-end/rest-API/Secure/api/v1/delete-daily-expense/daily-exp-privete-api/api47/${id}`,
+        `https://shop999backend.vercel.app/api/v1/expenses/delete/api47/${id}`,
         {
           method: "POST",
         }

@@ -29,7 +29,7 @@ const Login = () => {
 
     try {
       const response = await fetch(
-        "https://shop999backend.vercel.app/back-end/rest-API/Secure/api/v1/foxuserLogin/foxuser-corologin/api40",
+        "https://shop999backend.vercel.app/api/v1/auth/login/api40",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

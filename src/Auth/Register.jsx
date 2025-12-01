@@ -33,7 +33,7 @@ const Register = () => {
 
     try {
       const response = await fetch(
-        "https://shop999backend.vercel.app/back-end/rest-API/Secure/api/vi/coroCreateUser/create-coro/api39",
+        "https://shop999backend.vercel.app/api/v1/auth/register/api39",
         {
           method: "POST",
           headers: {
