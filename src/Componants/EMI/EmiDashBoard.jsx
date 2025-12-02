@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "../../Styles/EmiregiStyle/EmiDashboard.css";
 import { useNavigate } from "react-router-dom";
 import Header from "../Layout/Header"
+import API from "../../Api/EndPoint";
 const EmiDashBoard = () => {
   const [emis, setEmi] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -9,7 +10,7 @@ const EmiDashBoard = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("https://shop999backend.vercel.app/api/v1/emi/list/api42")
+    fetch(API.EMI_LIST)
       .then((res) => res.json())
       .then((data) => {
         if (data && data.allEmi) {

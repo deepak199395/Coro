@@ -4,6 +4,7 @@ import { FaPaperPlane } from "react-icons/fa";
 import botAvatar from "../../Assets/botAvatar.png";
 import { useNavigate } from "react-router-dom";
 import DatePickerInput from "../Common/DatePickerInput";
+import API from "../../Api/EndPoint";
 
 const EmiChatBot = () => {
   const [step, setStep] = useState(0);
@@ -123,8 +124,7 @@ const EmiChatBot = () => {
     speak("Submitting your EMI details", "female");
 
     try {
-      const res = await fetch(
-        "https://shop999backend.vercel.app/api/v1/emi/create/api41",
+      const res = await fetch(API.EMI_CREATE,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

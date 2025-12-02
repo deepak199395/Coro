@@ -2,13 +2,14 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../../Styles/EmiregiStyle/Emi.css"
 import Header from "../Layout/Header";
+import API from "../../Api/EndPoint";
 const Emi = () => {
   const navigate = useNavigate();
   const [totalOutstanding, setTotalOutstanding] = useState(0);
   const [emiList, setEmiList] = useState([]);
 
   useEffect(() => {
-    fetch("https://shop999backend.vercel.app/api/v1/emi/list/api42")
+    fetch(API.EMI_LIST)
       .then((res) => res.json())
       .then((data) => {
         if (data && data.allEmi) {

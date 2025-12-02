@@ -9,6 +9,7 @@ import { MdEdit } from "react-icons/md";
 import { useSelector } from "react-redux";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from 'react-toastify';
+import API from "../../Api/EndPoint";
 ChartJS.register(BarElement, ArcElement, CategoryScale, LinearScale, Tooltip, Legend);
 
 const DailyExpensesDashboard = () => {
@@ -28,8 +29,7 @@ const DailyExpensesDashboard = () => {
   
   const handleUpdate = async () => {
     try {
-      const res = await fetch(
-        `https://shop999backend.vercel.app/api/v1/expenses/update/api46/${editData.id}`,
+      const res = await fetch(API.EXPENSE_UPDATE(editData.id),
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -71,7 +71,7 @@ const DailyExpensesDashboard = () => {
   if (!isLogin || !userEmail) return;
 
   fetch(
-    "https://shop999backend.vercel.app/api/v1/expenses/list/api44"
+    API.EXPENSE_LIST
   )
     .then((res) => res.json())
     .then((data) => {

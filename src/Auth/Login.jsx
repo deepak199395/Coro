@@ -6,6 +6,7 @@ import { login } from "../ReducToolkit/Slices/authSlice";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from 'react-toastify';
 import { useNavigate } from "react-router-dom";
+import API from "../Api/EndPoint";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -28,8 +29,7 @@ const Login = () => {
     setLoading(true);
 
     try {
-      const response = await fetch(
-        "https://shop999backend.vercel.app/api/v1/auth/login/api40",
+      const response = await fetch(API.AUTH_LOGIN,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

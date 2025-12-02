@@ -5,6 +5,7 @@ import Footer from "../Componants/Layout/Footer";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import API from "../Api/EndPoint";
 
 const PinModel = () => {
   const navigate = useNavigate();
@@ -24,7 +25,7 @@ const PinModel = () => {
     }
 
     fetch(
-      "https://shop999backend.vercel.app/api/v1/pins/list/api49"
+      API.PIN_LIST
     )
       .then((res) => res.json())
       .then((data) => {
@@ -51,7 +52,7 @@ const PinModel = () => {
 
     try {
       const response = await fetch(
-        "https://shop999backend.vercel.app/api/v1/pins/create/api48",
+          API.PIN_CREATE,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -87,7 +88,7 @@ const PinModel = () => {
 
     try {
       const response = await fetch(
-        "https://shop999backend.vercel.app/api/v1/pins/verify/api50",
+        API.PIN_VERIFY,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

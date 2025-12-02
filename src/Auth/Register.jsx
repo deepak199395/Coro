@@ -4,6 +4,7 @@ import "../Styles/AuthStyle/Register.css";
 import { useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from 'react-toastify';
+import API from "../Api/EndPoint";
 const Register = () => {
   const navigate = useNavigate();
 
@@ -32,8 +33,7 @@ const Register = () => {
     setLoading(true);
 
     try {
-      const response = await fetch(
-        "https://shop999backend.vercel.app/api/v1/auth/register/api39",
+      const response = await fetch(API.AUTH_REGISTER,
         {
           method: "POST",
           headers: {
