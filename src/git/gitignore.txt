@@ -1,0 +1,4 @@
+git switch branch name
+git rm --cached .env
+git commit -m "Remove env file from CoroQA"
+git push origin branch name
