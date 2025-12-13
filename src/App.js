@@ -40,8 +40,8 @@ const App = () => {
           theme="light"
         />
         <Routes>
-          <Route path='/' element={<Home/>}/>
-          <Route path='/logn' element={< Login/>} />
+          <Route path='/home' element={<Home/>}/>
+          <Route path='/' element={< Login/>} />
           <Route path='/header' element={<Header />} />
           <Route path='/footer' element={<Footer />} />
           <Route path='/create-pin' element={<PinModel/>}/>
