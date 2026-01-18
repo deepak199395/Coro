@@ -1,0 +1,70 @@
+trigger:
+- main
+
+stages:
+# ================= BUILD =================
+- stage: Build
+  displayName: Build Stage
+  jobs:
+  - job: Build
+    pool:
+      vmImage: ubuntu-latest
+    steps:
+    - script: npm install
+      displayName: Install dependencies
+
+    - script: npm run build
+      displayName: Build application
+
+    - task: PublishBuildArtifacts@1
+      inputs:
+        PathtoPublish: build
+        ArtifactName: drop
+        publishLocation: Container
+      displayName: Publish artifact
+
+# ================= UAT RELEASE =================
+- stage: UAT
+  displayName: Deploy to UAT
+  dependsOn: Build
+  jobs:
+  - deployment: UATDeploy
+    environment: uat
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: DownloadBuildArtifacts@0
+            inputs:
+              artifactName: drop
+
+          - script: echo "Deploying to UAT"
+            displayName: UAT Deploy Step
+
+# ================= QA RELEASE =================
+- stage: QA
+  displayName: Deploy to QA
+  dependsOn: UAT
+  jobs:
+  - deployment: QADeploy
+    environment: qa
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - script: echo "Deploying to QA"
+            displayName: QA Deploy Step
+
+# ================= PROD RELEASE =================
+- stage: Prod
+  displayName: Deploy to PROD
+  dependsOn: QA
+  jobs:
+  - deployment: ProdDeploy
+    environment: prod
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - script: echo "Deploying to PROD"
+            displayName: PROD Deploy Step
